@@ -1,6 +1,6 @@
 # NDP Transition Research
 
-A public archive of research materials related to the NDP leadership transition.
+A public archive of research materials related to the NDP leadership transition, following the election of Avi Lewis as leader of the federal NDP at the party's leadership convention in Winnipeg, March 27–29, 2026.
 
 ## Scope
 
