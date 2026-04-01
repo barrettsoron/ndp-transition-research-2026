@@ -16,7 +16,7 @@ Plain-text transcripts of publicly available videos relevant to the NDP transiti
 
 ### `stephen-lewis/`
 
-An open archive of publicly available speeches, interviews, and writing by and about Stephen Lewis. His work spans decades of Canadian politics, UN diplomacy, and global health advocacy — material that belongs in the commons.
+Curated public record — news coverage, speeches, and commentary about Stephen Lewis, reformatted for readability and machine-readable access. Gathered as part of this transition-period archive.
 
 ---
 
