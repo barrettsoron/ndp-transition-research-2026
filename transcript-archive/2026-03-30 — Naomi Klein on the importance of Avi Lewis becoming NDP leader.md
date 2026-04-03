@@ -1,3 +1,14 @@
+---
+title: "Naomi Klein on the importance of Avi Lewis becoming NDP leader"
+date: 2026-03-30
+source: https://www.youtube.com/watch?v=1btIQPHHNkg
+outlet: The Breach
+language: en
+type: transcript
+speakers:
+  - Naomi Klein
+---
+
 I was mentioning that we know you as a
 researcher, an activist, a brilliant
 journalist for many, many decades.

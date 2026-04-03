@@ -1,0 +1,7 @@
+# NDP Transition Research — robots.txt
+# Search engine indexing is currently disabled while this archive is being populated.
+# This will be revisited once the archive reaches a useful level of completeness.
+# See TODO.md for the plan.
+
+User-agent: *
+Disallow: /
