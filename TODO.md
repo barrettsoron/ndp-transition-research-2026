@@ -1,13 +1,13 @@
 # TODO
 
-This archive is in early-stage development. The following work is needed before it should be considered complete, public-facing, or SEO-indexed.
+This archive is in active development. The following work is needed before it should be considered complete, public-facing, or SEO-indexed.
 
 ## Discoverability and Search
 
 - [ ] Enable search engine indexing — update `robots.txt` to `Allow: /` once the archive is sufficiently populated
 - [ ] Add OpenGraph and meta tags to HTML pages for proper link previews when shared on social media
 - [ ] Add a `sitemap.xml` once the archive has enough content to warrant it
-- [ ] Consider whether GitHub Pages is the right long-term home, or whether a custom domain (e.g. `research.ndp.community` or similar) is appropriate
+- [ ] Consider whether GitHub Pages is the right long-term home, or whether a custom domain is appropriate
 - [ ] Add a `_config.yml` or equivalent if moving to Jekyll/static site generator for better navigation
 
 ## Content Completeness
@@ -15,9 +15,9 @@ This archive is in early-stage development. The following work is needed before 
 - [ ] Archive full coverage from La Presse and Le Devoir (currently stubs)
 - [ ] Archive full Bloomberg profile (currently a stub)
 - [ ] Complete `transcript-archive/` with remaining relevant video transcripts
-- [ ] Review and expand `stephen-lewis/` materials
+- [ ] Expand `stephen-lewis/` — currently three archival speeches; more coverage may warrant addition
 - [ ] Add `march-27-28/` folder for convention run-up coverage
-- [ ] Consider adding post-convention reaction coverage (April 2026 onward)
+- [ ] Continue expanding `april-01/` and beyond with post-transition coverage
 
 ## Navigation and Presentation
 
@@ -33,4 +33,4 @@ This archive is in early-stage development. The following work is needed before 
 
 ---
 
-*Last updated: 2026-04-01*
+*Last updated: 2026-04-03*
