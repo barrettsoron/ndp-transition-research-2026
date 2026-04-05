@@ -10,9 +10,13 @@ This repository contains **only public, non-internal, non-strategic material** â
 
 ## Contents
 
-### `march-29/`
+### `speeches/`
 
-Coverage, analysis, and primary sources from and around the convention and first ballot results on March 29, 2026.
+Primary texts â€” Avi Lewis's leadership showcase speech (March 28) and victory speech in English and French (March 29, 2026).
+
+### `march-29/`, `march-30/`, `march-31/`, `april-01/` (dated)
+
+Day-by-day coverage folders. Each contains news articles, analysis, and primary sources archived from that date. March 29 covers convention results and first ballot. March 30 is post-convention reaction. March 31 covers the death of Stephen Lewis. New dated folders are added as the transition continues.
 
 ### `transcript-archive/`
 

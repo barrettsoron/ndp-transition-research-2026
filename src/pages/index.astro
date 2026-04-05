@@ -1,0 +1,68 @@
+---
+import Base from '../layouts/Base.astro';
+import Search from '../components/Search.astro';
+import { getCollection } from 'astro:content';
+
+const all = await getCollection('articles');
+const base = import.meta.env.BASE_URL.replace(/\/?$/, '/');
+
+const sections = [
+  { slug: 'march-29', label: 'March 29 — Convention Day', desc: 'Leadership vote results and immediate reactions' },
+  { slug: 'march-30', label: 'March 30', desc: 'Post-convention analysis and first-day coverage' },
+  { slug: 'march-31', label: 'March 31', desc: 'Stephen Lewis obituary coverage and tributes' },
+  { slug: 'april-01', label: 'April 1', desc: 'Continued coverage' },
+  { slug: 'speeches', label: 'Speeches', desc: 'Victory speech (EN/FR) and leadership showcase' },
+  { slug: 'stephen-lewis', label: 'Stephen Lewis', desc: 'Historical speeches and legacy context' },
+  { slug: 'transcript-archive', label: 'Transcript Archive', desc: 'Video transcripts' },
+];
+
+const countBySection = Object.fromEntries(
+  sections.map(s => [
+    s.slug,
+    all.filter(a => a.id.startsWith(`${s.slug}/`) && !a.data.stub).length,
+  ])
+);
+---
+<Base title="Home">
+  <Search slot="search" />
+  <style>
+    h1 { font-size: 1.75rem; margin-bottom: 0.5rem; }
+    .subtitle { color: #555; font-family: system-ui, sans-serif; font-size: 0.95rem; margin-bottom: 2.5rem; line-height: 1.5; }
+    .subtitle a { color: #555; }
+    .sections { display: grid; gap: 0.75rem; }
+    .card { border: 1px solid #e0e0e0; border-radius: 4px; padding: 1rem 1.25rem; text-decoration: none; color: inherit; display: flex; justify-content: space-between; align-items: flex-start; gap: 1rem; }
+    .card:hover { border-color: #e63946; }
+    .card-body h2 { font-size: 1.05rem; margin-bottom: 0.2rem; font-family: system-ui, sans-serif; }
+    .card-body p { font-family: system-ui, sans-serif; font-size: 0.85rem; color: #777; margin: 0; }
+    .card-count { font-family: system-ui, sans-serif; font-size: 0.75rem; color: #bbb; white-space: nowrap; padding-top: 0.2rem; }
+    .footer { font-family: system-ui, sans-serif; font-size: 0.78rem; color: #999; margin-top: 2.5rem; border-top: 1px solid #e0e0e0; padding-top: 1rem; line-height: 1.6; }
+    .footer a { color: #999; }
+  </style>
+
+  <h1>NDP Transition Research 2026</h1>
+  <p class="subtitle">
+    A public archive covering the NDP leadership transition following
+    Avi Lewis's election as federal NDP leader at the Winnipeg convention, March 27–29, 2026.
+    Maintained by <a href="https://github.com/barrettsoron">@barrettsoron</a>.
+  </p>
+
+  <div class="sections">
+    {sections.map(s => (
+      <a href={`${base}${s.slug}/`} class="card">
+        <div class="card-body">
+          <h2>{s.label}</h2>
+          <p>{s.desc}</p>
+        </div>
+        {countBySection[s.slug] > 0 && (
+          <span class="card-count">{countBySection[s.slug]} {countBySection[s.slug] === 1 ? 'item' : 'items'}</span>
+        )}
+      </a>
+    ))}
+  </div>
+
+  <p class="footer" data-pagefind-ignore>
+    Contents archived under Canadian Copyright Act fair dealing (s. 29) for research purposes.
+    Not an official NDP resource. &mdash;
+    <a href="https://github.com/barrettsoron/ndp-transition-research-2026">GitHub</a>
+  </p>
+</Base>

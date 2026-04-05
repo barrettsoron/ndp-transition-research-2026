@@ -1,0 +1,56 @@
+---
+interface Props {
+  title: string;
+  description?: string;
+  ogType?: 'website' | 'article';
+}
+const { title, description, ogType = 'website' } = Astro.props;
+const base = import.meta.env.BASE_URL.replace(/\/?$/, '/');
+const siteDesc = 'A public archive covering the NDP leadership transition following Avi Lewis\'s election as federal NDP leader, March 2026.';
+const metaDesc = description || siteDesc;
+---
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>{title} — NDP Transition Research 2026</title>
+    <meta name="description" content={metaDesc} />
+    <meta property="og:title" content={`${title} — NDP Transition Research 2026`} />
+    <meta property="og:description" content={metaDesc} />
+    <meta property="og:type" content={ogType} />
+    <meta property="og:url" content={Astro.url} />
+    <link rel="search" type="application/opensearchdescription+xml" title="NDP Transition Research 2026" href={`${base}pagefind/`} />
+    <style>
+      * { box-sizing: border-box; margin: 0; padding: 0; }
+      body { font-family: Georgia, serif; color: #1a1a1a; background: #fafafa; line-height: 1.6; }
+      header { border-bottom: 2px solid #e63946; padding: 1rem 0; margin-bottom: 2rem; }
+      header nav { max-width: 860px; margin: 0 auto; padding: 0 1.5rem; display: flex; flex-wrap: wrap; align-items: center; gap: 0.25rem 1.25rem; }
+      header nav a { color: #1a1a1a; text-decoration: none; font-family: system-ui, sans-serif; font-size: 0.875rem; }
+      header nav a.home { font-weight: 700; font-size: 1rem; flex: 1; white-space: nowrap; }
+      header nav a:hover { color: #e63946; }
+      .search-wrap { margin-left: auto; }
+      main { max-width: 860px; margin: 0 auto; padding: 0 1.5rem 4rem; }
+    </style>
+  </head>
+  <body>
+    <header data-pagefind-ignore>
+      <nav>
+        <a class="home" href={base}>NDP Transition Research 2026</a>
+        <a href={`${base}march-29/`}>Mar 29</a>
+        <a href={`${base}march-30/`}>Mar 30</a>
+        <a href={`${base}march-31/`}>Mar 31</a>
+        <a href={`${base}april-01/`}>Apr 1</a>
+        <a href={`${base}speeches/`}>Speeches</a>
+        <a href={`${base}stephen-lewis/`}>Stephen Lewis</a>
+        <a href={`${base}transcript-archive/`}>Transcripts</a>
+        <div class="search-wrap">
+          <slot name="search" />
+        </div>
+      </nav>
+    </header>
+    <main>
+      <slot />
+    </main>
+  </body>
+</html>

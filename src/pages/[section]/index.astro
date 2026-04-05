@@ -1,0 +1,72 @@
+---
+import Base from '../../layouts/Base.astro';
+import { getCollection } from 'astro:content';
+
+export async function getStaticPaths() {
+  const sections = [
+    'march-29', 'march-30', 'march-31', 'april-01',
+    'speeches', 'stephen-lewis', 'transcript-archive',
+  ];
+  const all = await getCollection('articles');
+
+  return sections.map(section => ({
+    params: { section },
+    props: {
+      articles: all
+        .filter(a => a.id.startsWith(`${section}/`))
+        .sort((a, b) => a.data.date.getTime() - b.data.date.getTime()),
+    },
+  }));
+}
+
+const { section } = Astro.params;
+const { articles } = Astro.props;
+const base = import.meta.env.BASE_URL.replace(/\/?$/, '/');
+
+const labels: Record<string, string> = {
+  'march-29': 'March 29 — Convention Day',
+  'march-30': 'March 30',
+  'march-31': 'March 31',
+  'april-01': 'April 1',
+  'speeches': 'Speeches',
+  'stephen-lewis': 'Stephen Lewis',
+  'transcript-archive': 'Transcript Archive',
+};
+
+const title = labels[section] ?? section;
+---
+<Base title={title}>
+  <style>
+    h1 { font-size: 1.5rem; margin-bottom: 1.5rem; }
+    ul { list-style: none; }
+    li { border-bottom: 1px solid #ebebeb; padding: 0.8rem 0; }
+    li:last-child { border-bottom: none; }
+    li a { text-decoration: none; color: #1a1a1a; font-size: 1rem; }
+    li a:hover { color: #e63946; }
+    .meta { font-family: system-ui, sans-serif; font-size: 0.8rem; color: #999; margin-top: 0.2rem; display: flex; gap: 0.5rem; align-items: center; }
+    .badge { background: #f0f0f0; padding: 0.1rem 0.4rem; border-radius: 3px; font-size: 0.65rem; text-transform: uppercase; }
+    .badge.stub { background: #fff3cd; color: #856404; }
+    .empty { color: #999; font-style: italic; font-family: system-ui, sans-serif; }
+  </style>
+
+  <h1>{title}</h1>
+
+  {articles.length === 0 ? (
+    <p class="empty">No documents in this section yet.</p>
+  ) : (
+    <ul>
+      {articles.map(a => (
+        <li>
+          <a href={`${base}${a.id}/`}>{a.data.title}</a>
+          <div class="meta">
+            <span>{a.data.date.toLocaleDateString('en-CA', { month: 'long', day: 'numeric', year: 'numeric' })}</span>
+            {a.data.outlet && <span>{a.data.outlet}</span>}
+            {a.data.language === 'fr' && <span class="badge">FR</span>}
+            {a.data.type && a.data.type !== 'article' && <span class="badge">{a.data.type}</span>}
+            {a.data.stub && <span class="badge stub">stub</span>}
+          </div>
+        </li>
+      ))}
+    </ul>
+  )}
+</Base>
