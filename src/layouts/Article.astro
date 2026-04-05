@@ -1,0 +1,104 @@
+---
+import Base from './Base.astro';
+import Search from '../components/Search.astro';
+
+const SECTION_LABELS: Record<string, string> = {
+  'march-29': 'March 29',
+  'march-30': 'March 30',
+  'march-31': 'March 31',
+  'april-01': 'April 1',
+  'speeches': 'Speeches',
+  'stephen-lewis': 'Stephen Lewis',
+  'transcript-archive': 'Transcript Archive',
+};
+
+interface Props {
+  title: string;
+  date: Date;
+  author?: string;
+  outlet?: string;
+  source?: string;
+  language?: string;
+  type?: string;
+  speakers?: string[];
+  video?: string;
+  note?: string;
+  stub?: boolean;
+  section?: string;
+}
+const { title, date, author, outlet, source, language, type, speakers, video, note, stub, section } = Astro.props;
+const dateStr = date.toLocaleDateString('en-CA', { year: 'numeric', month: 'long', day: 'numeric' });
+const base = import.meta.env.BASE_URL.replace(/\/?$/, '/');
+const sectionLabel = section ? (SECTION_LABELS[section] ?? section) : null;
+
+// Use note as OG description, or fall back to outlet + date
+const ogDesc = note || (outlet ? `${outlet} · ${dateStr}` : dateStr);
+---
+<Base title={title} description={ogDesc} ogType="article">
+  <Search slot="search" />
+  <style>
+    h1 { font-size: 1.75rem; line-height: 1.3; margin-bottom: 0.75rem; }
+    .breadcrumb { font-family: system-ui, sans-serif; font-size: 0.8rem; color: #999; margin-bottom: 1.25rem; display: flex; gap: 0.4rem; align-items: center; flex-wrap: wrap; }
+    .breadcrumb a { color: #999; text-decoration: none; }
+    .breadcrumb a:hover { color: #e63946; }
+    .breadcrumb span { color: #ccc; }
+    .meta { font-family: system-ui, sans-serif; font-size: 0.85rem; color: #555; margin-bottom: 0.5rem; display: flex; flex-wrap: wrap; gap: 0.5rem; align-items: center; }
+    .badge { background: #f0f0f0; padding: 0.2rem 0.5rem; border-radius: 3px; font-size: 0.7rem; text-transform: uppercase; letter-spacing: 0.05em; }
+    .source-link { color: #e63946; text-decoration: none; }
+    .source-link:hover { text-decoration: underline; }
+    .stub-warning { background: #fff8e1; border-left: 3px solid #f59e0b; padding: 0.75rem 1rem; font-family: system-ui, sans-serif; font-size: 0.875rem; color: #78350f; margin: 1rem 0 1.5rem; border-radius: 0 4px 4px 0; }
+    .stub-warning a { color: #b45309; }
+    .content { margin-top: 1.75rem; }
+    .content :global(h2) { font-size: 1.2rem; margin: 1.5rem 0 0.5rem; }
+    .content :global(p) { margin-bottom: 1rem; }
+    .content :global(ul), .content :global(ol) { margin: 0 0 1rem 1.5rem; }
+    .content :global(li) { margin-bottom: 0.25rem; }
+    .content :global(hr) { border: none; border-top: 1px solid #e0e0e0; margin: 1.5rem 0; }
+    .content :global(blockquote) { border-left: 3px solid #e63946; padding-left: 1rem; color: #555; font-style: italic; margin: 1rem 0; }
+    .note-block { background: #f8f8f8; border-left: 3px solid #ccc; padding: 0.75rem 1rem; font-family: system-ui, sans-serif; font-size: 0.875rem; color: #555; margin-bottom: 1rem; }
+  </style>
+
+  <div class="breadcrumb" data-pagefind-ignore>
+    <a href={base}>Home</a>
+    {sectionLabel && section && (
+      <>
+        <span>→</span>
+        <a href={`${base}${section}/`}>{sectionLabel}</a>
+      </>
+    )}
+    <span>→</span>
+    <span>{title.length > 50 ? title.slice(0, 50) + '…' : title}</span>
+  </div>
+
+  <h1>{title}</h1>
+
+  <div class="meta">
+    <span>{dateStr}</span>
+    {author && <span>{author}</span>}
+    {outlet && <span>{outlet}</span>}
+    {language && language !== 'en' && <span class="badge">{language.toUpperCase()}</span>}
+    {type && type !== 'article' && <span class="badge">{type}</span>}
+    {source && <a class="source-link" href={source} target="_blank" rel="noopener">Original source →</a>}
+  </div>
+
+  {speakers && speakers.length > 0 && (
+    <div class="meta">Speakers: {speakers.join(', ')}</div>
+  )}
+  {video && (
+    <div class="meta"><a class="source-link" href={video} target="_blank" rel="noopener">Video →</a></div>
+  )}
+  {note && <div class="note-block">{note}</div>}
+
+  {stub && (
+    <div class="stub-warning">
+      Full text not yet archived.
+      {source && <> <a href={source} target="_blank" rel="noopener">Read the original →</a></>}
+    </div>
+  )}
+
+  {!stub && (
+    <div class="content">
+      <slot />
+    </div>
+  )}
+</Base>
