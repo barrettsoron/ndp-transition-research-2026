@@ -47,7 +47,7 @@ const title = getSectionLabel(section);
         <li>
           <a href={`${base}${a.id}/`}>{a.data.title}</a>
           <div class="meta">
-            <span>{a.data.date.toLocaleDateString('en-CA', { month: 'long', day: 'numeric', year: 'numeric' })}</span>
+            <span>{a.data.date.toLocaleDateString('en-CA', { weekday: 'long', month: 'long', day: 'numeric', year: 'numeric' })}</span>
             {a.data.outlet && <span>{a.data.outlet}</span>}
             {a.data.language === 'fr' && <span class="badge">FR</span>}
             {a.data.type && a.data.type !== 'article' && <span class="badge">{a.data.type}</span>}

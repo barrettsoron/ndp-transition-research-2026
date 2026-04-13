@@ -1,6 +1,6 @@
 ---
 import { getCollection } from 'astro:content';
-import { getSections, getSectionNavLabel } from '../lib/sections';
+import { getSections, getSectionNavLabel, isDateSection, isConventionSection } from '../lib/sections';
 
 interface Props {
   title: string;
@@ -14,6 +14,9 @@ const metaDesc = description || siteDesc;
 
 const all = await getCollection('articles');
 const navSections = getSections(all);
+const conventionSections = navSections.filter(isConventionSection);
+const transitionSections = navSections.filter(s => isDateSection(s) && !isConventionSection(s));
+const fixedSections = navSections.filter(s => !isDateSection(s));
 ---
 <!DOCTYPE html>
 <html lang="en">
@@ -35,6 +38,14 @@ const navSections = getSections(all);
       header nav a { color: #1a1a1a; text-decoration: none; font-family: system-ui, sans-serif; font-size: 0.875rem; }
       header nav a.home { font-weight: 700; font-size: 1rem; flex: 1; white-space: nowrap; }
       header nav a:hover { color: #e63946; }
+      .dropdown { position: relative; }
+      .dropdown-trigger { color: #1a1a1a; font-family: system-ui, sans-serif; font-size: 0.875rem; cursor: default; user-select: none; white-space: nowrap; padding-bottom: 0.5rem; margin-bottom: -0.5rem; }
+      .dropdown-trigger:hover { color: #e63946; }
+      .dropdown-menu { display: none; position: absolute; top: 100%; left: 0; background: #fff; border: 1px solid #e0e0e0; border-radius: 4px; box-shadow: 0 4px 12px rgba(0,0,0,0.08); min-width: 140px; z-index: 100; padding: 0.25rem 0; margin-top: 0; }
+      .dropdown-menu::before { content: ''; position: absolute; top: -0.5rem; left: 0; right: 0; height: 0.5rem; }
+      .dropdown:hover .dropdown-menu { display: block; }
+      .dropdown-menu a { display: block; padding: 0.4rem 0.9rem; color: #1a1a1a; font-family: system-ui, sans-serif; font-size: 0.875rem; text-decoration: none; white-space: nowrap; }
+      .dropdown-menu a:hover { color: #e63946; background: #fafafa; }
       .search-wrap { margin-left: auto; }
       main { max-width: 860px; margin: 0 auto; padding: 0 1.5rem 4rem; }
     </style>
@@ -43,7 +54,27 @@ const navSections = getSections(all);
     <header data-pagefind-ignore>
       <nav>
         <a class="home" href={base}>NDP Transition Research 2026</a>
-        {navSections.map(s => (
+        {conventionSections.length > 0 && (
+          <div class="dropdown">
+            <span class="dropdown-trigger">Convention ▾</span>
+            <div class="dropdown-menu">
+              {conventionSections.map(s => (
+                <a href={`${base}${s}/`}>{getSectionNavLabel(s)}</a>
+              ))}
+            </div>
+          </div>
+        )}
+        {transitionSections.length > 0 && (
+          <div class="dropdown">
+            <span class="dropdown-trigger">Transition ▾</span>
+            <div class="dropdown-menu">
+              {transitionSections.map(s => (
+                <a href={`${base}${s}/`}>{getSectionNavLabel(s)}</a>
+              ))}
+            </div>
+          </div>
+        )}
+        {fixedSections.map(s => (
           <a href={`${base}${s}/`}>{getSectionNavLabel(s)}</a>
         ))}
         <div class="search-wrap">

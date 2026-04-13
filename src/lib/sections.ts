@@ -5,22 +5,33 @@
 
 /** Labels for non-date sections. Date sections derive labels from their slug. */
 const FIXED_LABELS: Record<string, string> = {
-  'speeches': 'Speeches',
+  'speeches': 'Avi Lewis Speeches',
   'stephen-lewis': 'Stephen Lewis',
-  'transcript-archive': 'Transcript Archive',
 };
 
 /** Descriptions for non-date sections. Date sections get a generic description. */
 const FIXED_DESCRIPTIONS: Record<string, string> = {
   'speeches': 'Victory speech (EN/FR) and leadership showcase',
   'stephen-lewis': 'Historical speeches and legacy context',
-  'transcript-archive': 'Video transcripts',
 };
 
 /** Special label overrides for specific date sections. */
 const DATE_LABEL_OVERRIDES: Record<string, string> = {
   'march-29': 'March 29 — Convention Day',
 };
+
+const FIXED_SECTIONS = ['speeches', 'stephen-lewis'];
+const CONVENTION_SECTIONS = ['march-26', 'march-27', 'march-28', 'march-27-28', 'march-29'];
+
+/** Returns true if the slug is a dated section (e.g., "march-29", "april-13"). */
+export function isDateSection(slug: string): boolean {
+  return !FIXED_SECTIONS.includes(slug);
+}
+
+/** Returns true if the slug belongs to the convention period (March 27–29). */
+export function isConventionSection(slug: string): boolean {
+  return CONVENTION_SECTIONS.includes(slug);
+}
 
 /**
  * Extract unique section slugs from a content collection.
@@ -88,13 +99,12 @@ export function getSectionNavLabel(slug: string): string {
   const shortFixed: Record<string, string> = {
     'speeches': 'Speeches',
     'stephen-lewis': 'Stephen Lewis',
-    'transcript-archive': 'Transcripts',
   };
   if (shortFixed[slug]) return shortFixed[slug];
 
   const parts = slug.split('-');
   if (parts.length === 2) {
-    const month = parts[0].charAt(0).toUpperCase() + parts[0].slice(1, 4);
+    const month = parts[0].slice(0, 3).charAt(0).toUpperCase() + parts[0].slice(1, 3);
     const day = parseInt(parts[1], 10);
     if (!isNaN(day)) return `${month} ${day}`;
   }
