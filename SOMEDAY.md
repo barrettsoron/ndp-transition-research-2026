@@ -42,6 +42,18 @@ Things we've discussed and decided to defer. Not forgotten, just not now.
 
 **When to revisit:** When the La Presse and Le Devoir stub situation is addressed. When the archive has enough English content that a French layer would meaningfully expand the audience.
 
+## Calendar interface
+
+**Why defer:** The archive is small enough that section-based browsing works. A calendar view adds complexity (a component, date-based routing, possibly a library) for marginal benefit at current scale.
+
+**When to revisit:** When the archive spans enough dates that scrolling through sections becomes unwieldy. When the site is being shared with people who want to browse by date range.
+
+## CMD-K command bar and text-only navigation
+
+**Why defer:** Pagefind search already covers keyword lookup. A command bar (CMD-K) and text-only nav are power-user features that don't justify the implementation cost for a small archive.
+
+**When to revisit:** When the archive is large enough that search alone isn't sufficient for navigation. When accessibility or keyboard-first browsing becomes a priority.
+
 ---
 
 *Last updated: 2026-04-13*

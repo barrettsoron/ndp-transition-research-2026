@@ -1,30 +1,22 @@
 # NDP Transition Research
 
-A public archive of research materials related to the NDP leadership transition, following the election of Avi Lewis as leader of the federal NDP at the party's leadership convention in Winnipeg, March 27–29, 2026.
+A public archive of news coverage, speeches, transcripts, and primary sources from the NDP leadership transition following Avi Lewis's election as federal NDP leader at the Winnipeg convention, March 27–29, 2026.
+
+**Live site:** [barrettsoron.github.io/ndp-transition-research-2026](https://barrettsoron.github.io/ndp-transition-research-2026/)
 
 ## Scope
 
-This repository contains **only public, non-internal, non-strategic material** — transcripts of publicly available videos, published articles, and open-source reference content.
+**Only public, non-internal, non-strategic material** — published articles, transcripts of publicly available videos, and open-source reference content. Not included: internal strategy, private communications, donor information, unpublished analysis, or anything sensitive.
 
-**Not included here:** internal strategy, private communications, donor information, unpublished analysis, or anything sensitive.
+## Structure
 
-## Contents
+Content is organized into date folders (`march-29/`, `march-30/`, `april-13/`, etc.) and thematic sections (`speeches/`, `stephen-lewis/`, `transcript-archive/`). New folders are added as coverage continues and are automatically picked up by the site.
 
-### `speeches/`
+Each markdown file follows the naming convention `YYYY-MM-DD — outlet-slug-description.md` with YAML frontmatter validated at build time. See `CLAUDE.md` for full formatting details.
 
-Primary texts — Avi Lewis's leadership showcase speech (March 28) and victory speech in English and French (March 29, 2026).
+## Site
 
-### `march-29/`, `march-30/`, `march-31/`, `april-01/` (dated)
-
-Day-by-day coverage folders. Each contains news articles, analysis, and primary sources archived from that date. March 29 covers convention results and first ballot. March 30 is post-convention reaction. March 31 covers the death of Stephen Lewis. New dated folders are added as the transition continues.
-
-### `transcript-archive/`
-
-Plain-text transcripts of publicly available videos relevant to the NDP transition. Sourced from YouTube auto-generated captions unless otherwise noted.
-
-### `stephen-lewis/`
-
-Curated public record — news coverage, speeches, and commentary about Stephen Lewis, reformatted for readability and machine-readable access. Gathered as part of this transition-period archive.
+The archive is rendered as a static site using Astro 5 with Pagefind search, deployed to GitHub Pages via GitHub Actions on push to `main`.
 
 ---
 

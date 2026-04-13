@@ -110,6 +110,12 @@ Done in this session (Cowork, April 13):
 
 Still to do:
 - [ ] **Verify the build works** — run `pnpm install && pnpm build` in Claude Code Desktop after committing these changes
+- [ ] Fix topnav short date names — three letters, not four (Mar not Marc, Apr not Apri)
+- [ ] Dated entries in nav should appear in a dropdown rather than listed one-by-one
+- [ ] Include days of the week in the index cards (e.g., "March 29 — Saturday") but not in the nav entries
+- [ ] Consolidate `transcript-archive/` — move entries into their dated folders
+- [ ] Rename `speeches/` section label to "Avi Lewis Speeches"
+- [ ] Add light/dark toggle
 - [ ] Add OpenGraph and meta tags (not urgent — do when content is substantial)
 - [ ] Enable search engine indexing — update `robots.txt` to `Allow: /` once ready
 - [ ] Add `sitemap.xml` when content warrants it
