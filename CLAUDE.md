@@ -139,6 +139,10 @@ The site dynamically discovers sections from the content collection at build tim
 - **Defuddle** (`defuddle parse <url> --md`): Used to extract clean markdown from web pages. Strips nav, ads, and clutter. Preferred over raw fetching.
 - **gh CLI**: Used for creating branches and PRs.
 
+## Worktree discipline
+
+If this session is running inside a git worktree (check with `git worktree list`), do all work — file creation, branch creation, builds, and the dev server — within that worktree directory. Never `cd` to the main repo directory to work around the worktree. If the worktree branch is wrong for the task, check out the correct branch inside the worktree. Splitting work across the worktree and main repo causes the dev server to show a different branch than the one being edited.
+
 ## Workflow
 
 This project is maintained through Claude Code Desktop. A scheduled task runs daily to fetch new coverage from RSS feeds, format it using these conventions, and open a PR for review. Manual additions (paywalled sources, transcripts) are done interactively through Claude Code Desktop or Dispatch.
