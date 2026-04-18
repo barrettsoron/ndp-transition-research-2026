@@ -1,0 +1,36 @@
+name: Lint content
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  schedule:
+    - cron: '0 9 * * 1'  # Monday 9am UTC — weekly scan of main
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  issues: write
+
+jobs:
+  lint:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Run content linter
+        run: python3 scripts/lint-content.py
+
+      - name: Open issue on scheduled failure
+        if: failure() && github.event_name == 'schedule'
+        uses: actions/github-script@v7
+        with:
+          script: |
+            await github.rest.issues.create({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              title: 'Weekly lint scan: violations found',
+              body: 'The scheduled Monday content lint found violations on `main`. Run `python3 scripts/lint-content.py` locally to see details.',
+              labels: []
+            })
