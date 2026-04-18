@@ -140,6 +140,18 @@ The site dynamically discovers sections from the content collection at build tim
 - **Defuddle** (`defuddle parse <url> --md`): Used to extract clean markdown from web pages. Strips nav, ads, and clutter. Preferred over raw fetching.
 - **gh CLI**: Used for creating branches and PRs.
 
+## Handling paywalled content
+
+When Defuddle returns only nav elements, a stub, or a login wall, use this fallback chain:
+
+**1. Wayback Machine** — try `defuddle parse "https://web.archive.org/web/<url>" --md`. Non-profit, trustworthy, but coverage of paywalled Canadian news is inconsistent.
+
+**2. archive.ph** — try `defuddle parse "https://archive.ph/<url>" --md`. Coverage is better than Wayback for recent Canadian outlets.
+
+> **Known risk with archive.ph**: In January–February 2026, archive.today's operator was documented weaponizing its CAPTCHA page to route visitor traffic into a DDoS attack, and Wikipedia banned the service after finding evidence of tampered snapshots. Using archive.ph as a *reading* tool is lower-risk than citing it as a source, but the platform is not trustworthy. Treat content extracted via archive.ph as plausibly accurate but not authoritative, and prefer Wayback Machine whenever it has coverage.
+
+**3. Stub** — if both fail, create a stub with `stub: true` in the frontmatter. A stub is the right outcome for content that genuinely can't be extracted; it preserves the metadata and source URL for future reference.
+
 ## Worktree discipline
 
 If this session is running inside a git worktree (check with `git worktree list`), do all work — file creation, branch creation, builds, and the dev server — within that worktree directory. Never `cd` to the main repo directory to work around the worktree. If the worktree branch is wrong for the task, check out the correct branch inside the worktree. Splitting work across the worktree and main repo causes the dev server to show a different branch than the one being edited.
