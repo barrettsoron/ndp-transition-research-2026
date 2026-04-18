@@ -18,9 +18,10 @@ march-30/              # Post-convention reaction
 march-31/              # Stephen Lewis's death
 april-01/              # Continuing coverage
 stephen-lewis/         # Curated public record — speeches, commentary
-transcript-archive/    # Transcripts of publicly available videos
 src/                   # Astro site source (layouts, pages, content config)
 ```
+
+Transcripts go inline in the relevant date folder alongside other content from that day — not in a separate directory. A transcript from April 16 belongs in `april-16/`, named following the standard convention.
 
 New dated folders are added as coverage continues (`april-02/`, `april-03/`, etc.).
 
