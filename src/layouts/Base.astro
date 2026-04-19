@@ -29,61 +29,221 @@ const fixedSections = navSections.filter(s => !isDateSection(s));
     <meta property="og:description" content={metaDesc} />
     <meta property="og:type" content={ogType} />
     <meta property="og:url" content={Astro.url} />
+    <link rel="icon" type="image/svg+xml" href={`${base}assets/logos/favicon.svg`} />
+    <link rel="icon" href={`${base}favicon.ico`} sizes="any" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Public+Sans:wght@300;400;500;600;700;800;900&display=swap" />
+    <link rel="stylesheet" href={`${base}bennu.css`} />
     <link rel="search" type="application/opensearchdescription+xml" title="NDP Transition Research 2026" href={`${base}pagefind/`} />
     <style>
-      * { box-sizing: border-box; margin: 0; padding: 0; }
-      body { font-family: Georgia, serif; color: #1a1a1a; background: #fafafa; line-height: 1.6; }
-      header { border-bottom: 2px solid #e63946; padding: 1rem 0; margin-bottom: 2rem; }
-      header nav { max-width: 860px; margin: 0 auto; padding: 0 1.5rem; display: flex; flex-wrap: wrap; align-items: center; gap: 0.25rem 1.25rem; }
-      header nav a { color: #1a1a1a; text-decoration: none; font-family: system-ui, sans-serif; font-size: 0.875rem; }
-      header nav a.home { font-weight: 700; font-size: 1rem; flex: 1; white-space: nowrap; }
-      header nav a:hover { color: #e63946; }
+      /* ─── Site chrome ─── */
+      .container { max-width: 960px; margin: 0 auto; padding: 0 28px; }
+      .container-narrow { max-width: 760px; margin: 0 auto; padding: 0 28px; }
+
+      header.site {
+        background: var(--cream);
+        border-bottom: 1.5px solid var(--ink);
+        position: sticky; top: 0; z-index: 50;
+      }
+      header.site .container {
+        display: flex; align-items: center; gap: 18px;
+        padding-top: 14px; padding-bottom: 14px;
+      }
+      header.site .home-mark {
+        display: flex; align-items: center; gap: 10px;
+        text-decoration: none; color: var(--ink);
+        font-weight: 900; font-size: 15px;
+        letter-spacing: -0.01em; line-height: 1.05;
+        flex-shrink: 0; max-width: 220px;
+      }
+      header.site .home-mark .flag {
+        width: 10px; height: 28px;
+        background: var(--signal);
+        border: 1.5px solid var(--ink);
+        flex-shrink: 0;
+      }
+      header.site .home-mark small {
+        display: block; font-weight: 500;
+        font-size: 10px; letter-spacing: 0.14em;
+        text-transform: uppercase; color: var(--fg-muted);
+        margin-top: 2px;
+      }
+      header.site nav {
+        display: flex; align-items: center;
+        gap: 2px; flex-wrap: wrap;
+        margin-left: auto;
+      }
+      header.site nav a,
+      header.site nav .dropdown-trigger {
+        font-weight: 700; font-size: 13px;
+        color: var(--ink); text-decoration: none;
+        padding: 8px 12px; border-radius: 999px;
+        display: inline-flex; align-items: center; gap: 6px;
+        line-height: 1; cursor: pointer; user-select: none; white-space: nowrap;
+      }
+      header.site nav a:hover,
+      header.site nav .dropdown-trigger:hover {
+        background: color-mix(in oklab, var(--ink) 8%, transparent);
+      }
+      header.site nav a.active { background: var(--ink); color: var(--cream); }
+
       .dropdown { position: relative; }
-      .dropdown-trigger { color: #1a1a1a; font-family: system-ui, sans-serif; font-size: 0.875rem; cursor: default; user-select: none; white-space: nowrap; padding-bottom: 0.5rem; margin-bottom: -0.5rem; }
-      .dropdown-trigger:hover { color: #e63946; }
-      .dropdown-menu { display: none; position: absolute; top: 100%; left: 0; background: #fff; border: 1px solid #e0e0e0; border-radius: 4px; box-shadow: 0 4px 12px rgba(0,0,0,0.08); min-width: 140px; z-index: 100; padding: 0.25rem 0; margin-top: 0; }
-      .dropdown-menu::before { content: ''; position: absolute; top: -0.5rem; left: 0; right: 0; height: 0.5rem; }
-      .dropdown:hover .dropdown-menu { display: block; }
-      .dropdown-menu a { display: block; padding: 0.4rem 0.9rem; color: #1a1a1a; font-family: system-ui, sans-serif; font-size: 0.875rem; text-decoration: none; white-space: nowrap; }
-      .dropdown-menu a:hover { color: #e63946; background: #fafafa; }
-      .search-wrap { margin-left: auto; }
-      main { max-width: 860px; margin: 0 auto; padding: 0 1.5rem 4rem; }
+      .dropdown-trigger .caret { font-size: 10px; opacity: 0.6; }
+      .dropdown-menu {
+        display: none; position: absolute;
+        top: 100%; left: 0;
+        background: var(--cream);
+        border: 1.5px solid var(--ink);
+        border-radius: 14px; min-width: 180px;
+        padding: 10px 6px 6px; box-shadow: 0 4px 0 0 var(--ink);
+        z-index: 100; flex-direction: column; gap: 2px;
+        white-space: nowrap;
+      }
+      .dropdown:hover .dropdown-menu { display: flex; }
+      .dropdown-menu a {
+        display: block; width: 100%;
+        padding: 8px 14px; font-size: 13px; font-weight: 600;
+        color: var(--ink); text-decoration: none;
+        border-radius: 999px; white-space: nowrap; line-height: 1.2;
+      }
+      .dropdown-menu a:hover { background: var(--ink); color: var(--signal); }
+
+      /* Search slot wrapper */
+      .search-wrap { margin-left: 4px; }
+
+      /* ─── Footer ─── */
+      footer.site {
+        background: var(--ink);
+        color: color-mix(in oklab, var(--cream) 85%, transparent);
+        margin-top: 80px; padding: 44px 0 40px;
+        border-top: 3px solid var(--signal);
+      }
+      footer.site .container {
+        display: grid; grid-template-columns: 1.2fr 1fr;
+        gap: 40px; align-items: start;
+      }
+      footer.site .mark {
+        display: flex; align-items: center; gap: 12px;
+        margin-bottom: 14px;
+      }
+      footer.site .mark .flag {
+        width: 12px; height: 30px;
+        background: var(--signal); flex-shrink: 0;
+      }
+      footer.site .mark strong {
+        font-weight: 900; color: var(--cream);
+        font-size: 15px; letter-spacing: -0.01em; line-height: 1.1;
+      }
+      footer.site p {
+        font-size: 13px; line-height: 1.55;
+        margin: 0 0 10px; max-width: 52ch;
+        color: color-mix(in oklab, var(--cream) 85%, transparent);
+      }
+      footer.site a { color: var(--signal); text-decoration: underline; text-underline-offset: 3px; }
+      footer.site .fair-dealing {
+        font-size: 11.5px; letter-spacing: 0.02em;
+        color: color-mix(in oklab, var(--cream) 55%, var(--ink));
+      }
+      footer.site .meta {
+        font-family: var(--font-mono); font-size: 11px;
+        letter-spacing: 0.04em;
+        color: color-mix(in oklab, var(--cream) 55%, var(--ink));
+      }
+      footer.site .meta .row {
+        display: flex; justify-content: space-between;
+        align-items: baseline; gap: 16px;
+        padding: 10px 0;
+        border-bottom: 1px solid color-mix(in oklab, var(--cream) 15%, transparent);
+        line-height: 1.4;
+      }
+      footer.site .meta .row:last-child { border-bottom: 0; }
+      footer.site .meta .row > span {
+        flex: 0 0 auto;
+        color: color-mix(in oklab, var(--cream) 55%, var(--ink));
+        white-space: nowrap;
+      }
+      footer.site .meta .row strong {
+        color: var(--cream); font-weight: 600;
+        text-align: right; word-break: break-word;
+        overflow-wrap: anywhere; min-width: 0;
+      }
+
+      @media (max-width: 820px) {
+        footer.site .container { grid-template-columns: 1fr; }
+        header.site nav .dropdown,
+        header.site nav a:not(.home-nav-fallback) { display: none; }
+        .search-wrap { display: none; }
+      }
     </style>
   </head>
   <body>
-    <header data-pagefind-ignore>
-      <nav>
-        <a class="home" href={base}>NDP Transition Research 2026</a>
-        {conventionSections.length > 0 && (
-          <div class="dropdown">
-            <span class="dropdown-trigger">Convention ▾</span>
-            <div class="dropdown-menu">
-              {conventionSections.map(s => (
-                <a href={`${base}${s}/`}>{getSectionNavLabel(s)}</a>
-              ))}
+    <header class="site" data-pagefind-ignore>
+      <div class="container">
+        <a class="home-mark" href={base}>
+          <span class="flag" aria-hidden="true"></span>
+          <span>
+            NDP Transition Research
+            <small>2026 · A public archive</small>
+          </span>
+        </a>
+        <nav>
+          {conventionSections.length > 0 && (
+            <div class="dropdown">
+              <span class="dropdown-trigger">Convention <span class="caret">▾</span></span>
+              <div class="dropdown-menu">
+                {conventionSections.map(s => (
+                  <a href={`${base}${s}/`}>{getSectionNavLabel(s)}</a>
+                ))}
+              </div>
             </div>
-          </div>
-        )}
-        {transitionSections.length > 0 && (
-          <div class="dropdown">
-            <span class="dropdown-trigger">Transition ▾</span>
-            <div class="dropdown-menu">
-              {transitionSections.map(s => (
-                <a href={`${base}${s}/`}>{getSectionNavLabel(s)}</a>
-              ))}
+          )}
+          {transitionSections.length > 0 && (
+            <div class="dropdown">
+              <span class="dropdown-trigger">Transition <span class="caret">▾</span></span>
+              <div class="dropdown-menu">
+                {transitionSections.map(s => (
+                  <a href={`${base}${s}/`}>{getSectionNavLabel(s)}</a>
+                ))}
+              </div>
             </div>
+          )}
+          {fixedSections.map(s => (
+            <a href={`${base}${s}/`}>{getSectionNavLabel(s)}</a>
+          ))}
+          <div class="search-wrap">
+            <slot name="search" />
           </div>
-        )}
-        {fixedSections.map(s => (
-          <a href={`${base}${s}/`}>{getSectionNavLabel(s)}</a>
-        ))}
-        <div class="search-wrap">
-          <slot name="search" />
-        </div>
-      </nav>
+        </nav>
+      </div>
     </header>
-    <main>
-      <slot />
-    </main>
+
+    <slot />
+
+    <footer class="site" data-pagefind-ignore>
+      <div class="container">
+        <div>
+          <div class="mark">
+            <span class="flag" aria-hidden="true"></span>
+            <strong>NDP Transition<br />Research 2026</strong>
+          </div>
+          <p class="fair-dealing">
+            Contents archived under the Canadian <em>Copyright Act</em> fair dealing provisions (s. 29)
+            for research, education, and public-interest purposes. Every file attributes source,
+            author, and outlet; links to originals are provided wherever possible. No commercial
+            use is made.
+          </p>
+          <p>
+            <a href="https://github.com/barrettsoron/ndp-transition-research-2026">Source on GitHub</a> ·
+            Not an official NDP resource.
+          </p>
+        </div>
+        <div class="meta">
+          <div class="row"><span>Site</span><strong>Astro 5 · GitHub Pages</strong></div>
+          <div class="row"><span>Search</span><strong>Pagefind 1.5</strong></div>
+          <div class="row"><span>Maintainer</span><strong>@barrettsoron</strong></div>
+        </div>
+      </div>
+    </footer>
   </body>
 </html>
