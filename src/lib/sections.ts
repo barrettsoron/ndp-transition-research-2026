@@ -5,13 +5,13 @@
 
 /** Labels for non-date sections. Date sections derive labels from their slug. */
 const FIXED_LABELS: Record<string, string> = {
-  'speeches': 'Avi Lewis Speeches',
+  'speeches': 'Avi Lewis — Speeches & Statements',
   'stephen-lewis': 'Stephen Lewis',
 };
 
 /** Descriptions for non-date sections. Date sections get a generic description. */
 const FIXED_DESCRIPTIONS: Record<string, string> = {
-  'speeches': 'Victory speech (EN/FR) and leadership showcase',
+  'speeches': 'Victory speech (EN/FR), leadership showcase, victory email to members',
   'stephen-lewis': 'Historical speeches and legacy context',
 };
 
@@ -97,7 +97,7 @@ export function getSectionLabel(slug: string): string {
  */
 export function getSectionNavLabel(slug: string): string {
   const shortFixed: Record<string, string> = {
-    'speeches': 'Speeches',
+    'speeches': 'Avi Lewis',
     'stephen-lewis': 'Stephen Lewis',
   };
   if (shortFixed[slug]) return shortFixed[slug];
@@ -112,10 +112,27 @@ export function getSectionNavLabel(slug: string): string {
   return slug;
 }
 
+const DATE_DESCRIPTIONS: Record<string, string> = {
+  'march-26': 'Pre-convention; NDP Youth events',
+  'march-27': 'Convention opens in Winnipeg',
+  'march-28': 'Leadership showcase speeches',
+  'march-29': 'Lewis wins on first ballot; election night coverage',
+  'march-30': 'First wave of post-election reaction and commentary',
+  'march-31': 'Death of Stephen Lewis; ballot result breakdown',
+  'april-01': 'Archival Avi–Stephen interview resurfaces',
+  'april-13': "Lewis's Parliament Hill debut; by-election coverage",
+  'april-14': "Lewis's Parliament debut; Carney majority implications",
+  'april-15': 'Parliamentary funding restored; NDP challenges Carney majority',
+  'april-16': 'Sask NDP energy dispute; Alberta and western coverage',
+  'april-17': 'Carney majority context; Lewis family profile',
+  'april-18': "Lewis makes the case for democratic socialism; Parliament coverage",
+};
+
 /**
  * Get a description for a section. Used on the home page.
  */
 export function getSectionDescription(slug: string): string {
   if (FIXED_DESCRIPTIONS[slug]) return FIXED_DESCRIPTIONS[slug];
+  if (DATE_DESCRIPTIONS[slug]) return DATE_DESCRIPTIONS[slug];
   return 'Coverage and analysis';
 }
