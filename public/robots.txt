@@ -1,0 +1,22 @@
+# Personal research notebook. Not indexed.
+# Pages reproduce source material for research and criticism
+# (Copyright Act ss. 29 / 29.1). Please read originals at their
+# cited sources.
+
+User-agent: *
+Disallow: /
+
+User-agent: GPTBot
+Disallow: /
+
+User-agent: Google-Extended
+Disallow: /
+
+User-agent: CCBot
+Disallow: /
+
+User-agent: anthropic-ai
+Disallow: /
+
+User-agent: ClaudeBot
+Disallow: /
