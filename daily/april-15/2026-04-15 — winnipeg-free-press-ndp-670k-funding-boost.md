@@ -2,13 +2,11 @@
 title: "NDP to get $670K parliamentary funding boost despite not having official status"
 date: 2026-04-15
 source: https://www.winnipegfreepress.com/canada/2026/04/15/ndp-to-get-670k-parliamentary-funding-boost-despite-not-having-official-status
+author: The Canadian Press
 outlet: Winnipeg Free Press
 language: en
 type: article
-stub: true
 ---
-
-> *Note: article is paywalled. Full content available with subscription. The following is the available lede and CP wire text.*
 
 OTTAWA – The cash-strapped federal NDP is getting a $670,000 financial boost.
 
