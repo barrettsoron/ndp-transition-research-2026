@@ -1,8 +1,14 @@
 # NDP Transition Research
 
-A public archive of news coverage, speeches, transcripts, and primary sources from the NDP leadership transition following Avi Lewis's election as federal NDP leader at the Winnipeg convention, March 27–29, 2026.
+A research notebook and source index of news coverage, speeches, transcripts, and primary sources from the NDP leadership transition following Avi Lewis's election as federal NDP leader at the Winnipeg convention, March 27–29, 2026.
 
 **Live site:** [barrettsoron.github.io/ndp-transition-research-2026](https://barrettsoron.github.io/ndp-transition-research-2026/)
+
+## Posture
+
+This is a personal research notebook and source index on the 2026 NDP leadership transition. It hosts my notes, source clippings, and transcripts for my own research and criticism (*Copyright Act*, ss. 29 / 29.1), and reproduces source material on that basis. Copyright remains with the original publishers.
+
+The repository and site are publicly accessible but not publicly findable: `robots.txt` disallows all crawlers and every page carries a `noindex` directive. If you've arrived here from a direct link, welcome — but please read each source at its own publication, not here.
 
 ## Scope
 

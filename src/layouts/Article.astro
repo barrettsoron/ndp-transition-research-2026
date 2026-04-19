@@ -298,6 +298,16 @@ const lang = language ?? 'en';
             {video && (
               <div class="video-link"><a href={video} target="_blank" rel="noopener">Video recording →</a></div>
             )}
+            {(type === 'article' || type === 'statement') && source && (
+              <aside class="research-notice">
+                <p><strong>Research notice:</strong> This article is reproduced in a personal research notebook for the purpose of research and criticism (<em>Copyright Act</em>, ss. 29 / 29.1). Please read the original at <a href={source} target="_blank" rel="noopener">{source}</a>. Copyright remains with the original publisher.</p>
+              </aside>
+            )}
+            {type === 'transcript' && (
+              <aside class="research-notice">
+                <p><strong>Research notice:</strong> This transcript is reproduced in a personal research notebook for the purpose of research and criticism (<em>Copyright Act</em>, ss. 29 / 29.1). The original broadcast is the authoritative version — where possible, watch it at its source. Copyright remains with the original broadcaster.</p>
+              </aside>
+            )}
           </>
         )}
 

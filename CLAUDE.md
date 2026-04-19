@@ -1,6 +1,6 @@
 # NDP Transition Research Archive
 
-Public archive of research materials related to the NDP leadership transition following the election of Avi Lewis as federal NDP leader, March 29, 2026.
+Research notebook and source index covering the NDP leadership transition following the election of Avi Lewis as federal NDP leader, March 29, 2026.
 
 ## What this project is
 
