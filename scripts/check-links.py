@@ -17,10 +17,10 @@ import time
 import urllib.request
 import urllib.error
 
-CONTENT_DIRS = re.compile(
+DATE_DIRS = re.compile(
     r'^(march|april|may|june|july|august|september|october|november|december)-\d+$'
-    r'|^(speeches|stephen-lewis)$'
 )
+FIXED_DIRS = re.compile(r'^(speeches|stephen-lewis)$')
 
 SOURCE_RE = re.compile(r'^source\s*:\s*["\']?(https?://[^\s"\']+)', re.MULTILINE)
 
@@ -62,29 +62,41 @@ def check_url(url):
     return 0, 'error'
 
 
+def scan_dir(dirpath, sources, repo_root):
+    for fname in os.listdir(dirpath):
+        if not fname.endswith('.md'):
+            continue
+        fpath = os.path.join(dirpath, fname)
+        with open(fpath, encoding='utf-8') as f:
+            text = f.read()
+        if text.startswith('---'):
+            end = text.find('\n---', 3)
+            fm = text[:end] if end != -1 else text
+        else:
+            continue
+        for m in SOURCE_RE.finditer(fm):
+            sources.append((fpath, m.group(1)))
+
+
 def collect_sources(repo_root):
     """Return list of (filepath, url) for all source: fields in content files."""
     sources = []
+    # Date folders live under daily/
+    daily_root = os.path.join(repo_root, 'daily')
+    if os.path.isdir(daily_root):
+        for entry in os.listdir(daily_root):
+            if not DATE_DIRS.match(entry):
+                continue
+            dirpath = os.path.join(daily_root, entry)
+            if os.path.isdir(dirpath):
+                scan_dir(dirpath, sources, repo_root)
+    # Fixed sections live at repo root
     for entry in os.listdir(repo_root):
-        if not CONTENT_DIRS.match(entry):
+        if not FIXED_DIRS.match(entry):
             continue
         dirpath = os.path.join(repo_root, entry)
-        if not os.path.isdir(dirpath):
-            continue
-        for fname in os.listdir(dirpath):
-            if not fname.endswith('.md'):
-                continue
-            fpath = os.path.join(dirpath, fname)
-            with open(fpath, encoding='utf-8') as f:
-                text = f.read()
-            # Only scan frontmatter (between first --- markers)
-            if text.startswith('---'):
-                end = text.find('\n---', 3)
-                fm = text[:end] if end != -1 else text
-            else:
-                continue
-            for m in SOURCE_RE.finditer(fm):
-                sources.append((fpath, m.group(1)))
+        if os.path.isdir(dirpath):
+            scan_dir(dirpath, sources, repo_root)
     return sources
 
 

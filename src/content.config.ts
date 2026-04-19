@@ -3,11 +3,16 @@ import { glob } from 'astro/loaders';
 
 const articles = defineCollection({
   loader: glob({
-    pattern: "{march-*,april-*,speeches,stephen-lewis,transcript-archive}/[0-9]*.md",
+    pattern: [
+      "daily/*/[0-9]*.md",
+      "{speeches,stephen-lewis,transcript-archive}/[0-9]*.md",
+    ],
     base: ".",
     generateId: ({ entry }) => {
-      const [section, filename] = entry.split('/');
-      // Derive slug from the part after " — " (space + em-dash + space), then slugify
+      const parts = entry.split('/');
+      const [section, filename] = parts.length === 3
+        ? [parts[1], parts[2]]
+        : [parts[0], parts[1]];
       const afterDash = filename.replace(/\.md$/, '').split(' \u2014 ')[1]
         ?? filename.replace(/\.md$/, '');
       const slug = afterDash.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');

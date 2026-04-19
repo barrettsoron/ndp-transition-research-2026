@@ -11,19 +11,21 @@ A curated, date-organized collection of news coverage, transcripts, speeches, an
 ## Repo structure
 
 ```
+daily/                 # All date-based coverage folders
+  march-29/            # Convention results, first ballot, election night
+  march-30/            # Post-convention reaction
+  march-31/            # Stephen Lewis's death
+  april-01/            # Continuing coverage
+  april-NN/            # New folders added as coverage continues
 speeches/              # Primary texts — Avi Lewis's showcase and victory speeches
-march-27-28/           # (planned) Convention run-up coverage
-march-29/              # Convention results, first ballot, election night
-march-30/              # Post-convention reaction
-march-31/              # Stephen Lewis's death
-april-01/              # Continuing coverage
 stephen-lewis/         # Curated public record — speeches, commentary
 src/                   # Astro site source (layouts, pages, content config)
+scripts/               # Utility scripts (link checker, alerts fetcher)
 ```
 
-Transcripts go inline in the relevant date folder alongside other content from that day — not in a separate directory. A transcript from April 16 belongs in `april-16/`, named following the standard convention.
+Transcripts go inline in the relevant date folder alongside other content from that day — not in a separate directory. A transcript from April 16 belongs in `daily/april-16/`, named following the standard convention.
 
-New dated folders are added as coverage continues (`april-02/`, `april-03/`, etc.).
+New dated folders are added as coverage continues — always inside `daily/` (e.g., `daily/april-19/`, `daily/april-20/`).
 
 ## File naming convention
 
@@ -131,7 +133,7 @@ All third-party content is reproduced under the fair dealing provisions of the C
 
 The repo includes an Astro 5 static site with Pagefind search, deployed to GitHub Pages via a GitHub Actions workflow. The Astro config is minimal (`astro.config.mjs`). The site renders the markdown content — don't break the build by moving files out of the expected structure.
 
-The site dynamically discovers sections from the content collection at build time. New date folders (e.g., `april-02/`, `april-03/`) are automatically picked up — no code changes needed. Section pages, navigation, and the home page all update themselves.
+The site dynamically discovers sections from the content collection at build time. New date folders inside `daily/` (e.g., `daily/april-19/`, `daily/april-20/`) are automatically picked up — no code changes needed. Section pages, navigation, and the home page all update themselves.
 
 **Do not remove or modify the Astro scaffolding** (`src/`, `astro.config.mjs`, `package.json`, `.github/workflows/`). If making structural changes, verify the build with `pnpm build`.
 
@@ -168,7 +170,7 @@ When given a URL to add to the archive:
 2. Determine the article's publication date, outlet, author, and language
 3. Create the markdown file with correct frontmatter (see formats above)
 4. Name the file following the convention: `YYYY-MM-DD — outlet-slug-description.md`
-5. Place it in the correct date folder (create the folder if it doesn't exist)
+5. Place it in the correct date folder under `daily/` (create `daily/YYYY-MM-DD/` if it doesn't exist)
 6. If Defuddle can't extract the content (paywall, 403, etc.), create a stub instead
 7. Create a branch, commit, push, and open a PR via `gh pr create`
 
