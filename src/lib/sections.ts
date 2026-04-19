@@ -5,7 +5,7 @@
 
 /** Labels for non-date sections. Date sections derive labels from their slug. */
 const FIXED_LABELS: Record<string, string> = {
-  'speeches': 'Avi Lewis Speeches',
+  'speeches': "Avi's Speeches and Writing",
   'stephen-lewis': 'Stephen Lewis',
 };
 
