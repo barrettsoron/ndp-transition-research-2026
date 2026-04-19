@@ -110,8 +110,6 @@ const fixedSections = navSections.filter(s => !isDateSection(s));
       }
       .dropdown-menu a:hover { background: var(--ink); color: var(--signal); }
 
-      /* Search slot wrapper */
-      .search-wrap { margin-left: 4px; }
 
       /* ─── Footer ─── */
       footer.site {
@@ -264,8 +262,8 @@ const fixedSections = navSections.filter(s => !isDateSection(s));
         color: var(--fg-subtle); padding: 10px 16px 4px;
       }
       .cmd-item {
-        display: flex; align-items: center; gap: 10px;
-        padding: 9px 16px; text-decoration: none; color: var(--ink);
+        display: flex; align-items: flex-start; gap: 10px;
+        padding: 10px 16px; text-decoration: none; color: var(--ink);
         cursor: pointer; font-size: 14px; line-height: 1.2;
       }
       .cmd-item.cmd-active, .cmd-item:hover {
@@ -273,11 +271,12 @@ const fixedSections = navSections.filter(s => !isDateSection(s));
       }
       .cmd-item-icon {
         flex-shrink: 0; width: 22px; text-align: center;
-        font-size: 13px; color: var(--fg-muted);
+        font-size: 13px; color: var(--fg-muted); padding-top: 2px;
       }
       .cmd-item.cmd-active .cmd-item-icon,
       .cmd-item:hover .cmd-item-icon { color: var(--signal); }
-      .cmd-item-label { font-weight: 700; flex-shrink: 0; }
+      .cmd-item-body { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 4px; }
+      .cmd-item-label { font-weight: 700; line-height: 1.3; }
       .cmd-item-desc {
         font-size: 12px; color: var(--fg-muted);
         white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
@@ -286,6 +285,38 @@ const fixedSections = navSections.filter(s => !isDateSection(s));
       .cmd-item.cmd-active .cmd-item-desc,
       .cmd-item:hover .cmd-item-desc {
         color: color-mix(in oklab, #fff 70%, var(--ink));
+      }
+      /* Rich search result items */
+      .cmd-item-excerpt {
+        font-size: 12px; line-height: 1.45;
+        color: var(--fg-muted);
+        display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical;
+        overflow: hidden;
+      }
+      .cmd-item.cmd-active .cmd-item-excerpt,
+      .cmd-item:hover .cmd-item-excerpt { color: color-mix(in oklab, #fff 65%, var(--ink)); }
+      .cmd-item-excerpt mark {
+        background: #ffe066; color: var(--ink);
+        border-radius: 2px; padding: 0 1px;
+      }
+      .cmd-item.cmd-active .cmd-item-excerpt mark,
+      .cmd-item:hover .cmd-item-excerpt mark { background: var(--signal); color: var(--ink); }
+      .cmd-outlet-badge {
+        display: inline-block; font-size: 10px; font-weight: 800;
+        letter-spacing: 0.12em; text-transform: uppercase;
+        color: var(--fg-subtle); padding: 2px 7px;
+        border: 1px solid color-mix(in oklab, var(--ink) 18%, transparent);
+        border-radius: 999px; line-height: 1.4; align-self: flex-start;
+      }
+      .cmd-item.cmd-active .cmd-outlet-badge,
+      .cmd-item:hover .cmd-outlet-badge {
+        color: color-mix(in oklab, #fff 60%, var(--ink));
+        border-color: color-mix(in oklab, #fff 25%, transparent);
+      }
+      .cmd-result-count {
+        font-size: 11px; font-family: var(--font-mono);
+        color: var(--fg-subtle); padding: 6px 16px 2px;
+        letter-spacing: 0.04em;
       }
       .cmd-placeholder, .cmd-no-results {
         padding: 10px 16px; font-size: 13px;
@@ -337,9 +368,6 @@ const fixedSections = navSections.filter(s => !isDateSection(s));
           {fixedSections.map(s => (
             <a href={`${base}${s}/`}>{getSectionNavLabel(s)}</a>
           ))}
-          <div class="search-wrap">
-            <slot name="search" />
-          </div>
           <button id="cmd-trigger" aria-label="Open command bar (⌘K)">
             <svg width="13" height="13" viewBox="0 0 13 13" fill="none" aria-hidden="true">
               <circle cx="5.5" cy="5.5" r="4" stroke="currentColor" stroke-width="1.5"/>
@@ -467,20 +495,49 @@ const fixedSections = navSections.filter(s => !isDateSection(s));
           return d;
         }
 
-        function makeResultItem(url, title, excerpt) {
+        function appendExcerpt(container, excerpt) {
+          const parts = excerpt.split(/(<mark>|<\/mark>)/);
+          let inMark = false;
+          parts.forEach(part => {
+            if (part === '<mark>') { inMark = true; return; }
+            if (part === '</mark>') { inMark = false; return; }
+            if (!part) return;
+            if (inMark) {
+              const m = document.createElement('mark');
+              m.textContent = part;
+              container.appendChild(m);
+            } else {
+              container.appendChild(document.createTextNode(part));
+            }
+          });
+        }
+
+        function makeResultItem(url, title, excerpt, outlet) {
           const a = document.createElement('a');
           a.className = 'cmd-item';
           a.href = url;
           const icon = document.createElement('span');
           icon.className = 'cmd-item-icon';
           icon.textContent = '→';
+          const body = document.createElement('span');
+          body.className = 'cmd-item-body';
           const label = document.createElement('span');
           label.className = 'cmd-item-label';
           label.textContent = title;
-          const desc = document.createElement('span');
-          desc.className = 'cmd-item-desc';
-          desc.textContent = excerpt;
-          a.append(icon, label, desc);
+          body.appendChild(label);
+          if (excerpt) {
+            const ex = document.createElement('span');
+            ex.className = 'cmd-item-excerpt';
+            appendExcerpt(ex, excerpt);
+            body.appendChild(ex);
+          }
+          if (outlet) {
+            const badge = document.createElement('span');
+            badge.className = 'cmd-outlet-badge';
+            badge.textContent = outlet;
+            body.appendChild(badge);
+          }
+          a.append(icon, body);
           return a;
         }
 
@@ -494,13 +551,17 @@ const fixedSections = navSections.filter(s => !isDateSection(s));
             return;
           }
           const res = await engine.search(q);
-          const data = await Promise.all(res.results.slice(0, 6).map(r => r.data()));
+          const data = await Promise.all(res.results.slice(0, 8).map(r => r.data()));
           if (!data.length) {
             searchResults.appendChild(makeMsg('No results'));
             return;
           }
+          const count = document.createElement('div');
+          count.className = 'cmd-result-count';
+          count.textContent = `${res.results.length} result${res.results.length === 1 ? '' : 's'}`;
           const frag = document.createDocumentFragment();
-          data.forEach(d => frag.appendChild(makeResultItem(d.url, d.meta?.title ?? d.url, d.excerpt ?? '')));
+          frag.appendChild(count);
+          data.forEach(d => frag.appendChild(makeResultItem(d.url, d.meta?.title ?? d.url, d.excerpt ?? '', d.meta?.outlet ?? '')));
           searchResults.appendChild(frag);
         }
 

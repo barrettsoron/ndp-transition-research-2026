@@ -1,6 +1,5 @@
 ---
 import Base from './Base.astro';
-import Search from '../components/Search.astro';
 import { getSectionLabel, isConventionSection, isDateSection } from '../lib/sections';
 
 interface Props {
@@ -29,7 +28,6 @@ const ogDesc = note || (outlet ? `${outlet} · ${dateStr}` : dateStr);
 const lang = language ?? 'en';
 ---
 <Base title={title} description={ogDesc} ogType="article">
-  <Search slot="search" />
   <style>
     .article-page { padding: 40px 0 0; }
     .prose-wrap { max-width: 680px; }

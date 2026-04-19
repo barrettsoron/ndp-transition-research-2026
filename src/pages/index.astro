@@ -1,6 +1,5 @@
 ---
 import Base from '../layouts/Base.astro';
-import Search from '../components/Search.astro';
 import { getCollection } from 'astro:content';
 import { getSections, getSectionLabel, getSectionDescription, isConventionSection, isDateSection } from '../lib/sections';
 
@@ -33,7 +32,6 @@ const featuredSlug = sectionSlugs.includes('march-29') ? 'march-29' : null;
 const nonFeaturedConvention = conventionSlugs.filter(s => s !== featuredSlug);
 ---
 <Base title="Home">
-  <Search slot="search" />
   <style>
     /* ─── Hero ─── */
     .hero-home {
