@@ -45,7 +45,7 @@ export function getSections(articles: { id: string }[]): string[] {
     if (section) slugs.add(section);
   }
 
-  const fixedOrder = ['speeches', 'stephen-lewis', 'transcript-archive'];
+  const fixedOrder = ['speeches', 'stephen-lewis'];
   const dateSections = [...slugs]
     .filter(s => !fixedOrder.includes(s))
     .sort(); // alphabetical sort puts dates in order (april-01 < april-02 < march-29 etc.)
