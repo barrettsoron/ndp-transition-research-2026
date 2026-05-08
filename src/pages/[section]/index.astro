@@ -24,6 +24,43 @@ const base = import.meta.env.BASE_URL.replace(/\/?$/, '/');
 const title = getSectionLabel(section);
 const desc = getSectionDescription(section);
 const groupLabel = isConventionSection(section) ? 'Convention' : isDateSection(section) ? 'Transition' : null;
+
+// Curated cross-references for fixed sections, linking out to date folders
+// where related daily coverage lives (e.g. tributes/news of Stephen Lewis's
+// death belong in daily/march-31 by date, but readers landing on the
+// Stephen Lewis section should be able to find them).
+const RELATED_DATE_SECTIONS: Record<string, { slug: string; label: string; note: string }[]> = {
+  'stephen-lewis': [
+    { slug: 'march-31', label: 'March 31', note: 'News of his death; Carney statement; CBC obituary; Seth Klein farewell' },
+    { slug: 'april-01', label: 'April 1', note: 'Resurfaced Avi–Stephen interview' },
+    { slug: 'april-26', label: 'April 26', note: 'Coverage from the day of the public memorial at TMU' },
+  ],
+};
+const related = RELATED_DATE_SECTIONS[section] ?? [];
+
+// Featured memorial block, shown at top of the Stephen Lewis section.
+// Pulls the four memorial-day entries by slug so a future renaming will surface as a missing link.
+type FeaturedItem = { slug: string; label: string; description: string };
+const FEATURED_BY_SECTION: Record<string, { videoId: string; cpacUrl: string; lead: FeaturedItem; speeches: FeaturedItem[] }> = {
+  'stephen-lewis': {
+    videoId: 'zW0wBA7T9K4',
+    cpacUrl: 'https://www.cpac.ca/cpac-special/episode/memorial-service-for-stephen-lewis--april-26-2026?id=722b2de4-4442-408c-bb62-79d8409b9bec',
+    lead: {
+      slug: 'memorial-service-tmu',
+      label: 'Memorial service — April 26, 2026',
+      description: 'Public memorial at the Chrysalis Theatre, Toronto Metropolitan University. 1,000+ in attendance; 1,500+ online.',
+    },
+    speeches: [
+      { slug: 'avi-lewis-memorial-tribute', label: 'Avi Lewis', description: '"His was a socialism of the heart." (1:20–1:29)' },
+      { slug: 'jenny-lewis-memorial-tribute', label: 'Jenny Lewis', description: 'The 49 hotel-soap boxes; "corduroy suit-wearing dad." (1:29–1:33)' },
+      { slug: 'ilana-landsberg-lewis-memorial-tribute', label: 'Ilana Landsberg-Lewis', description: 'Founding the Stephen Lewis Foundation; "anticipated infants." (1:33–1:39)' },
+    ],
+  },
+};
+const featured = FEATURED_BY_SECTION[section];
+const featuredArticles = featured
+  ? articles.filter(a => [featured.lead.slug, ...featured.speeches.map(s => s.slug)].includes(a.id.split('/').slice(1).join('/')))
+  : [];
 ---
 <Base title={title}>
   <style>
@@ -158,6 +195,40 @@ const groupLabel = isConventionSection(section) ? 'Convention' : isDateSection(s
         <div class="count-big">{articles.length}<small>Items archived</small></div>
       </div>
 
+      {featured && (
+        <div class="featured-memorial">
+          <div class="featured-eyebrow">Featured · Memorial</div>
+          <h2 class="featured-title">
+            <a href={`${base}${section}/${featured.lead.slug}/`}>{featured.lead.label}</a>
+          </h2>
+          <p class="featured-desc">{featured.lead.description}</p>
+          <div class="featured-video">
+            <iframe
+              src={`https://www.youtube-nocookie.com/embed/${featured.videoId}`}
+              title={featured.lead.label}
+              allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+              referrerpolicy="strict-origin-when-cross-origin"
+              allowfullscreen
+              loading="lazy"
+            ></iframe>
+          </div>
+          <p class="featured-also">
+            Also available on <a href={featured.cpacUrl} target="_blank" rel="noopener">CPAC</a>.
+          </p>
+          <div class="featured-speeches">
+            <div class="featured-speeches-label">Family eulogies</div>
+            <ul>
+              {featured.speeches.map(s => (
+                <li>
+                  <a href={`${base}${section}/${s.slug}/`}>{s.label}</a>
+                  <span class="speech-desc"> — {s.description}</span>
+                </li>
+              ))}
+            </ul>
+          </div>
+        </div>
+      )}
+
       {articles.length === 0 ? (
         <p style="color: var(--fg-muted); font-style: italic; padding: 2rem 0;">No documents in this section yet.</p>
       ) : (
@@ -198,6 +269,145 @@ const groupLabel = isConventionSection(section) ? 'Convention' : isDateSection(s
           })}
         </ul>
       )}
+
+      {related.length > 0 && (
+        <div class="related-coverage">
+          <h2>Related coverage in the daily archive</h2>
+          <p class="related-intro">
+            News of Stephen Lewis's death and the public memorial is filed by date in the transition archive.
+            Use these links to read alongside the historical and tribute material above.
+          </p>
+          <ul class="related-list">
+            {related.map(r => (
+              <li>
+                <a href={`${base}${r.slug}/`}>{r.label}</a>
+                <span class="related-note"> — {r.note}</span>
+              </li>
+            ))}
+          </ul>
+        </div>
+      )}
     </div>
   </section>
+
+  <style>
+    .featured-memorial {
+      margin: 28px 0 12px;
+      padding: 28px 28px 24px;
+      background: var(--cream-2, #f4eedd);
+      border: 2px solid var(--ink);
+      border-radius: 6px;
+      box-shadow: 6px 6px 0 var(--ink);
+    }
+    .featured-eyebrow {
+      font-family: var(--font-mono);
+      font-weight: 800;
+      font-size: 11px;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--signal-ink);
+      margin-bottom: 10px;
+    }
+    .featured-title {
+      font-weight: 900;
+      font-size: clamp(24px, 3vw, 32px);
+      line-height: 1.05;
+      letter-spacing: -0.02em;
+      margin: 0 0 8px;
+    }
+    .featured-title a {
+      color: var(--ink);
+      text-decoration: none;
+      border-bottom: 3px solid var(--signal);
+    }
+    .featured-title a:hover { color: var(--signal-ink); }
+    .featured-desc {
+      color: var(--fg-muted);
+      font-size: 15px;
+      margin: 0 0 18px;
+      max-width: 70ch;
+    }
+    .featured-video {
+      position: relative;
+      width: 100%;
+      aspect-ratio: 16 / 9;
+      background: var(--ink);
+      border: 1.5px solid var(--ink);
+      margin-bottom: 12px;
+    }
+    .featured-video iframe {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      border: 0;
+    }
+    .featured-also {
+      font-size: 13px;
+      color: var(--fg-muted);
+      margin: 0 0 22px;
+    }
+    .featured-also a { color: var(--ink); border-bottom: 1.5px solid var(--signal); text-decoration: none; }
+    .featured-speeches {
+      border-top: 1.5px solid color-mix(in oklab, var(--ink) 25%, transparent);
+      padding-top: 18px;
+    }
+    .featured-speeches-label {
+      font-family: var(--font-mono);
+      font-weight: 700;
+      font-size: 11px;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: var(--ink);
+      margin-bottom: 10px;
+    }
+    .featured-speeches ul { list-style: none; margin: 0; padding: 0; }
+    .featured-speeches li {
+      padding: 10px 0;
+      border-bottom: 1px dashed color-mix(in oklab, var(--ink) 22%, transparent);
+      font-size: 15px;
+    }
+    .featured-speeches li:last-child { border-bottom: 0; }
+    .featured-speeches a {
+      font-weight: 800;
+      color: var(--ink);
+      text-decoration: none;
+      border-bottom: 2px solid var(--signal);
+    }
+    .featured-speeches a:hover { color: var(--signal-ink); }
+    .speech-desc { color: var(--fg-muted); }
+
+    .related-coverage {
+      margin-top: 56px;
+      padding: 28px 0 8px;
+      border-top: 3px solid var(--ink);
+    }
+    .related-coverage h2 {
+      font-weight: 900;
+      font-size: 22px;
+      letter-spacing: -0.02em;
+      margin: 0 0 8px;
+    }
+    .related-intro {
+      color: var(--fg-muted);
+      font-size: 14px;
+      margin: 0 0 18px;
+      max-width: 60ch;
+    }
+    .related-list { list-style: none; margin: 0; padding: 0; }
+    .related-list > li {
+      padding: 12px 0;
+      border-bottom: 1.5px solid color-mix(in oklab, var(--ink) 14%, transparent);
+      font-size: 15px;
+    }
+    .related-list > li:last-child { border-bottom: 0; }
+    .related-list a {
+      font-weight: 800;
+      color: var(--ink);
+      text-decoration: none;
+      border-bottom: 2px solid var(--signal);
+    }
+    .related-list a:hover { color: var(--signal-ink); }
+    .related-note { color: var(--fg-muted); }
+  </style>
 </Base>
