@@ -67,30 +67,6 @@ const nonFeaturedConvention = conventionSlugs.filter(s => s !== featuredSlug);
       margin: 0 0 28px; color: var(--fg);
     }
     .hero-home .lede a { color: var(--link); }
-    .scope-facts {
-      display: flex; flex-wrap: wrap;
-      gap: 28px 44px; padding-top: 22px;
-      border-top: 1.5px solid var(--ink); max-width: 720px;
-    }
-    .scope-facts .fact { font-family: var(--font-body); }
-    .scope-facts .num {
-      font-weight: 900; font-size: 32px; line-height: 1;
-      color: var(--ink); letter-spacing: -0.02em;
-      display: block; margin-bottom: 4px;
-    }
-    .scope-facts .lbl {
-      font-size: 11px; font-weight: 700;
-      letter-spacing: 0.14em; text-transform: uppercase;
-      color: var(--fg-muted);
-    }
-    .win-note {
-      font-size: 12px; font-weight: 600;
-      letter-spacing: 0.04em; color: var(--fg-muted);
-      padding-top: 18px; max-width: 720px;
-      display: flex; flex-wrap: wrap; gap: 6px 20px;
-      align-items: center;
-    }
-    .win-note .sep { color: var(--rule); }
     .archive-stats {
       display: flex; flex-wrap: wrap; gap: 20px 36px;
       padding-top: 18px;
@@ -209,8 +185,6 @@ const nonFeaturedConvention = conventionSlugs.filter(s => s !== featuredSlug);
     }
     @media (max-width: 560px) {
       .section-grid { grid-template-columns: 1fr; }
-      .scope-facts { gap: 20px 32px; }
-      .scope-facts .num { font-size: 24px; }
     }
   </style>
 
@@ -226,19 +200,6 @@ const nonFeaturedConvention = conventionSlugs.filter(s => s !== featuredSlug);
       <p class="homepage-notice">
         Personal research notebook. Not indexed. Sources reproduced for research and criticism (<em>Copyright Act</em>, ss. 29 / 29.1). Please read each clipping or transcript at its original source.
       </p>
-      <div class="scope-facts">
-        <div class="fact"><span class="num">56%</span><span class="lbl">First ballot</span></div>
-        <div class="fact"><span class="num">39,734</span><span class="lbl">Votes for Lewis</span></div>
-        <div class="fact"><span class="num">70.6%</span><span class="lbl">Voter turnout</span></div>
-        <div class="fact"><span class="num">$1.5M</span><span class="lbl">Most raised in NDP history</span></div>
-      </div>
-      <div class="win-note">
-        <span>Memberships sold in 338 of 343 ridings</span>
-        <span class="sep">·</span>
-        <span>Every province &amp; territory</span>
-        <span class="sep">·</span>
-        <span>11,000+ donors</span>
-      </div>
       <div class="archive-stats">
         {totalArticles > 0 && <div class="fact"><span class="num">{totalArticles}</span><span class="lbl">Articles archived</span></div>}
         {totalSpeeches > 0 && <div class="fact"><span class="num">{totalSpeeches}</span><span class="lbl">Speeches</span></div>}
