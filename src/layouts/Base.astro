@@ -1,6 +1,6 @@
 ---
 import { getCollection } from 'astro:content';
-import { getSections, getSectionNavLabel, isDateSection, isConventionSection } from '../lib/sections';
+import { getSections, getSectionNavLabel, isDateSection, isConventionSection, groupSectionsByMonth } from '../lib/sections';
 
 interface Props {
   title: string;
@@ -109,6 +109,40 @@ const fixedSections = navSections.filter(s => !isDateSection(s));
         border-radius: 999px; white-space: nowrap; line-height: 1.2;
       }
       .dropdown-menu a:hover { background: var(--ink); color: var(--signal); }
+
+      .dropdown-month { position: relative; }
+      .dropdown-month-trigger {
+        display: flex; align-items: center; justify-content: space-between;
+        padding: 8px 14px; font-size: 13px; font-weight: 600;
+        color: var(--ink); border-radius: 999px;
+        white-space: nowrap; line-height: 1.2; cursor: default;
+      }
+      .dropdown-month-trigger .caret-right {
+        font-size: 10px; opacity: 0.6; margin-left: 8px;
+      }
+      .dropdown-month:hover > .dropdown-month-trigger,
+      .dropdown-month:focus-within > .dropdown-month-trigger {
+        background: var(--ink); color: var(--signal);
+      }
+      .dropdown-month-menu {
+        display: none; position: absolute;
+        top: -10px; left: calc(100% - 4px);
+        background: var(--cream);
+        border: 1.5px solid var(--ink);
+        border-radius: 14px; min-width: 140px;
+        padding: 10px 6px 6px; box-shadow: 0 4px 0 0 var(--ink);
+        z-index: 101; flex-direction: column; gap: 2px;
+        white-space: nowrap;
+      }
+      .dropdown-month:hover > .dropdown-month-menu,
+      .dropdown-month:focus-within > .dropdown-month-menu { display: flex; }
+      .dropdown-month-menu a {
+        display: block; width: 100%;
+        padding: 8px 14px; font-size: 13px; font-weight: 600;
+        color: var(--ink); text-decoration: none;
+        border-radius: 999px; white-space: nowrap; line-height: 1.2;
+      }
+      .dropdown-month-menu a:hover { background: var(--ink); color: var(--signal); }
 
 
       /* ─── Footer ─── */
@@ -365,8 +399,18 @@ const fixedSections = navSections.filter(s => !isDateSection(s));
             <div class="dropdown">
               <span class="dropdown-trigger">Transition <span class="caret">▾</span></span>
               <div class="dropdown-menu">
-                {transitionSections.map(s => (
-                  <a href={`${base}${s}/`}>{getSectionNavLabel(s)}</a>
+                {groupSectionsByMonth(transitionSections).map(group => (
+                  <div class="dropdown-month">
+                    <span class="dropdown-month-trigger" tabindex="0">
+                      {group.monthLabel}
+                      <span class="caret caret-right">▸</span>
+                    </span>
+                    <div class="dropdown-month-menu">
+                      {group.slugs.map(s => (
+                        <a href={`${base}${s}/`}>{getSectionNavLabel(s)}</a>
+                      ))}
+                    </div>
+                  </div>
                 ))}
               </div>
             </div>

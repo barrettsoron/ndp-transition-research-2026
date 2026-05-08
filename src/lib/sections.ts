@@ -23,6 +23,14 @@ const DATE_LABEL_OVERRIDES: Record<string, string> = {
 const FIXED_SECTIONS = ['speeches', 'stephen-lewis'];
 const CONVENTION_SECTIONS = ['march-26', 'march-27', 'march-28', 'march-27-28', 'march-29'];
 
+const MONTH_KEYS: Record<string, number> = {
+  january: 1, february: 2, march: 3, april: 4, may: 5, june: 6,
+  july: 7, august: 8, september: 9, october: 10, november: 11, december: 12,
+};
+
+const MONTH_NAMES = ['', 'January', 'February', 'March', 'April', 'May', 'June',
+                     'July', 'August', 'September', 'October', 'November', 'December'];
+
 /** Returns true if the slug is a dated section (e.g., "march-29", "april-13"). */
 export function isDateSection(slug: string): boolean {
   return !FIXED_SECTIONS.includes(slug);
@@ -54,12 +62,8 @@ export function getSections(articles: { id: string }[]): string[] {
   // Sort date sections by parsing month and day for correct chronological order
   dateSections.sort((a, b) => {
     const toSortKey = (slug: string) => {
-      const months: Record<string, number> = {
-        january: 1, february: 2, march: 3, april: 4, may: 5, june: 6,
-        july: 7, august: 8, september: 9, october: 10, november: 11, december: 12,
-      };
       const parts = slug.split('-');
-      const month = months[parts[0]] ?? 0;
+      const month = MONTH_KEYS[parts[0]] ?? 0;
       const day = parseInt(parts[1] ?? '0', 10);
       return month * 100 + day;
     };
@@ -67,6 +71,37 @@ export function getSections(articles: { id: string }[]): string[] {
   });
 
   return [...dateSections, ...fixed];
+}
+
+/** Date sections grouped by month, in chronological month order. */
+export interface MonthGroup {
+  monthKey: number;
+  monthLabel: string;
+  slugs: string[];
+}
+
+/**
+ * Bucket date-section slugs by month.
+ * Input is expected to be already chronologically sorted (e.g. from getSections()).
+ * Non-date slugs are filtered out.
+ */
+export function groupSectionsByMonth(sections: string[]): MonthGroup[] {
+  const groups = new Map<number, string[]>();
+  for (const slug of sections) {
+    if (!isDateSection(slug)) continue;
+    const parts = slug.split('-');
+    const monthKey = MONTH_KEYS[parts[0]] ?? 0;
+    if (!monthKey) continue;
+    if (!groups.has(monthKey)) groups.set(monthKey, []);
+    groups.get(monthKey)!.push(slug);
+  }
+  return [...groups.entries()]
+    .sort(([a], [b]) => a - b)
+    .map(([monthKey, slugs]) => ({
+      monthKey,
+      monthLabel: MONTH_NAMES[monthKey],
+      slugs,
+    }));
 }
 
 /**
