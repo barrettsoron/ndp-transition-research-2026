@@ -24,6 +24,19 @@ const base = import.meta.env.BASE_URL.replace(/\/?$/, '/');
 const title = getSectionLabel(section);
 const desc = getSectionDescription(section);
 const groupLabel = isConventionSection(section) ? 'Convention' : isDateSection(section) ? 'Transition' : null;
+
+// Curated cross-references for fixed sections, linking out to date folders
+// where related daily coverage lives (e.g. tributes/news of Stephen Lewis's
+// death belong in daily/march-31 by date, but readers landing on the
+// Stephen Lewis section should be able to find them).
+const RELATED_DATE_SECTIONS: Record<string, { slug: string; label: string; note: string }[]> = {
+  'stephen-lewis': [
+    { slug: 'march-31', label: 'March 31', note: 'News of his death; Carney statement; CBC obituary; Seth Klein farewell' },
+    { slug: 'april-01', label: 'April 1', note: 'Resurfaced Avi–Stephen interview' },
+    { slug: 'april-26', label: 'April 26', note: 'Coverage from the day of the public memorial at TMU' },
+  ],
+};
+const related = RELATED_DATE_SECTIONS[section] ?? [];
 ---
 <Base title={title}>
   <style>
@@ -198,6 +211,59 @@ const groupLabel = isConventionSection(section) ? 'Convention' : isDateSection(s
           })}
         </ul>
       )}
+
+      {related.length > 0 && (
+        <div class="related-coverage">
+          <h2>Related coverage in the daily archive</h2>
+          <p class="related-intro">
+            News of Stephen Lewis's death and the public memorial is filed by date in the transition archive.
+            Use these links to read alongside the historical and tribute material above.
+          </p>
+          <ul class="related-list">
+            {related.map(r => (
+              <li>
+                <a href={`${base}${r.slug}/`}>{r.label}</a>
+                <span class="related-note"> — {r.note}</span>
+              </li>
+            ))}
+          </ul>
+        </div>
+      )}
     </div>
   </section>
+
+  <style>
+    .related-coverage {
+      margin-top: 56px;
+      padding: 28px 0 8px;
+      border-top: 3px solid var(--ink);
+    }
+    .related-coverage h2 {
+      font-weight: 900;
+      font-size: 22px;
+      letter-spacing: -0.02em;
+      margin: 0 0 8px;
+    }
+    .related-intro {
+      color: var(--fg-muted);
+      font-size: 14px;
+      margin: 0 0 18px;
+      max-width: 60ch;
+    }
+    .related-list { list-style: none; margin: 0; padding: 0; }
+    .related-list > li {
+      padding: 12px 0;
+      border-bottom: 1.5px solid color-mix(in oklab, var(--ink) 14%, transparent);
+      font-size: 15px;
+    }
+    .related-list > li:last-child { border-bottom: 0; }
+    .related-list a {
+      font-weight: 800;
+      color: var(--ink);
+      text-decoration: none;
+      border-bottom: 2px solid var(--signal);
+    }
+    .related-list a:hover { color: var(--signal-ink); }
+    .related-note { color: var(--fg-muted); }
+  </style>
 </Base>

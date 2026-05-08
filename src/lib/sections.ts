@@ -12,7 +12,7 @@ const FIXED_LABELS: Record<string, string> = {
 /** Descriptions for non-date sections. Date sections get a generic description. */
 const FIXED_DESCRIPTIONS: Record<string, string> = {
   'speeches': 'Victory speech (EN/FR), leadership showcase, victory email to members',
-  'stephen-lewis': 'Historical speeches and legacy context',
+  'stephen-lewis': 'Historical speeches, tributes from his death, and legacy context',
 };
 
 /** Special label overrides for specific date sections. */
