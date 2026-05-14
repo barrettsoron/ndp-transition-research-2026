@@ -8,6 +8,6 @@ type: article
 stub: true
 ---
 
-> *Note: CPAC episode page hosting the French-language video of Avi Lewis's speech to the Canadian Labour Congress (CLC) convention on May 13, 2026. The page is a video player without a text transcript; metadata preserved for reference. An English-language YouTube version is also available.*
+> *Note: CPAC episode page hosting the French-language video of Avi Lewis's speech to the Canadian Labour Congress (CLC) convention on May 13, 2026. The page is a video player without a text transcript; metadata preserved for reference. An English-language transcript derived from the CLC's official YouTube clip is available in this archive at `2026-05-13 — clc-avi-lewis-speech-transcript.md`.*
 
 Federal NDP Leader Avi Lewis addressed the Canadian Labour Congress convention in Winnipeg on May 13, 2026, on the third day of the convention focused on the care crisis. The speech aligned with the NDP's call to prohibit the federal government from using Section 107 back-to-work powers against picketing workers.
