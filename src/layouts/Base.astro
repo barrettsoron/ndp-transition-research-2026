@@ -1,6 +1,6 @@
 ---
 import { getCollection } from 'astro:content';
-import { getSections, getSectionNavLabel, isDateSection, isConventionSection } from '../lib/sections';
+import { getSections, getSectionNavLabel, isDateSection, isConventionSection, groupSectionsByMonth } from '../lib/sections';
 
 interface Props {
   title: string;
@@ -110,6 +110,40 @@ const fixedSections = navSections.filter(s => !isDateSection(s));
       }
       .dropdown-menu a:hover { background: var(--ink); color: var(--signal); }
 
+      .dropdown-month { position: relative; }
+      .dropdown-month-trigger {
+        display: flex; align-items: center; justify-content: space-between;
+        padding: 8px 14px; font-size: 13px; font-weight: 600;
+        color: var(--ink); border-radius: 999px;
+        white-space: nowrap; line-height: 1.2; cursor: default;
+      }
+      .dropdown-month-trigger .caret-right {
+        font-size: 10px; opacity: 0.6; margin-left: 8px;
+      }
+      .dropdown-month:hover > .dropdown-month-trigger,
+      .dropdown-month:focus-within > .dropdown-month-trigger {
+        background: var(--ink); color: var(--signal);
+      }
+      .dropdown-month-menu {
+        display: none; position: absolute;
+        top: -10px; left: calc(100% - 4px);
+        background: var(--cream);
+        border: 1.5px solid var(--ink);
+        border-radius: 14px; min-width: 140px;
+        padding: 10px 6px 6px; box-shadow: 0 4px 0 0 var(--ink);
+        z-index: 101; flex-direction: column; gap: 2px;
+        white-space: nowrap;
+      }
+      .dropdown-month:hover > .dropdown-month-menu,
+      .dropdown-month:focus-within > .dropdown-month-menu { display: flex; }
+      .dropdown-month-menu a {
+        display: block; width: 100%;
+        padding: 8px 14px; font-size: 13px; font-weight: 600;
+        color: var(--ink); text-decoration: none;
+        border-radius: 999px; white-space: nowrap; line-height: 1.2;
+      }
+      .dropdown-month-menu a:hover { background: var(--ink); color: var(--signal); }
+
 
       /* ─── Footer ─── */
       footer.site {
@@ -174,7 +208,10 @@ const fixedSections = navSections.filter(s => !isDateSection(s));
         header.site nav a:not(.home-nav-fallback) { display: none; }
         .search-wrap { display: none; }
       }
+    </style>
 
+    <style is:global>
+      /* Command bar — global because JS-built result nodes lack Astro's scope attr */
       /* ─── Command bar trigger ─── */
       #cmd-trigger {
         display: inline-flex; align-items: center; gap: 6px;
@@ -263,28 +300,31 @@ const fixedSections = navSections.filter(s => !isDateSection(s));
       }
       .cmd-item {
         display: flex; align-items: flex-start; gap: 10px;
-        padding: 10px 16px; text-decoration: none; color: var(--ink);
+        padding: 10px 14px; text-decoration: none; color: var(--ink);
         cursor: pointer; font-size: 14px; line-height: 1.2;
+        border-left: 2px solid transparent;
       }
       .cmd-item.cmd-active, .cmd-item:hover {
-        background: var(--ink); color: #fff;
+        background: var(--cream-2);
+        border-left-color: var(--signal);
+      }
+      #cmd-search-results .cmd-item + .cmd-item {
+        border-top: 1px solid color-mix(in oklab, var(--ink) 12%, transparent);
       }
       .cmd-item-icon {
         flex-shrink: 0; width: 22px; text-align: center;
         font-size: 13px; color: var(--fg-muted); padding-top: 2px;
       }
       .cmd-item.cmd-active .cmd-item-icon,
-      .cmd-item:hover .cmd-item-icon { color: var(--signal); }
+      .cmd-item:hover .cmd-item-icon { color: var(--signal-ink); }
       .cmd-item-body { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 4px; }
       .cmd-item-label { font-weight: 700; line-height: 1.3; }
+      .cmd-item.cmd-active .cmd-item-label,
+      .cmd-item:hover .cmd-item-label { color: var(--signal-ink); }
       .cmd-item-desc {
         font-size: 12px; color: var(--fg-muted);
         white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
         flex: 1; min-width: 0;
-      }
-      .cmd-item.cmd-active .cmd-item-desc,
-      .cmd-item:hover .cmd-item-desc {
-        color: color-mix(in oklab, #fff 70%, var(--ink));
       }
       /* Rich search result items */
       .cmd-item-excerpt {
@@ -293,25 +333,25 @@ const fixedSections = navSections.filter(s => !isDateSection(s));
         display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical;
         overflow: hidden;
       }
-      .cmd-item.cmd-active .cmd-item-excerpt,
-      .cmd-item:hover .cmd-item-excerpt { color: color-mix(in oklab, #fff 65%, var(--ink)); }
       .cmd-item-excerpt mark {
         background: #ffe066; color: var(--ink);
         border-radius: 2px; padding: 0 1px;
       }
       .cmd-item.cmd-active .cmd-item-excerpt mark,
-      .cmd-item:hover .cmd-item-excerpt mark { background: var(--signal); color: var(--ink); }
-      .cmd-outlet-badge {
-        display: inline-block; font-size: 10px; font-weight: 800;
-        letter-spacing: 0.12em; text-transform: uppercase;
-        color: var(--fg-subtle); padding: 2px 7px;
-        border: 1px solid color-mix(in oklab, var(--ink) 18%, transparent);
-        border-radius: 999px; line-height: 1.4; align-self: flex-start;
+      .cmd-item:hover .cmd-item-excerpt mark {
+        background: var(--signal); color: #fff;
       }
-      .cmd-item.cmd-active .cmd-outlet-badge,
-      .cmd-item:hover .cmd-outlet-badge {
-        color: color-mix(in oklab, #fff 60%, var(--ink));
-        border-color: color-mix(in oklab, #fff 25%, transparent);
+      .cmd-tag-row { display: flex; flex-wrap: wrap; gap: 4px; margin-top: 2px; }
+      .cmd-tag-pill {
+        font-size: 10px; font-weight: 700;
+        letter-spacing: 0.1em; text-transform: uppercase;
+        color: var(--signal-ink); background: var(--cream-2);
+        border: 1px solid color-mix(in oklab, var(--ink) 20%, transparent);
+        border-radius: 3px; padding: 2px 6px 1px; line-height: 1;
+      }
+      .cmd-item.cmd-active .cmd-tag-pill,
+      .cmd-item:hover .cmd-tag-pill {
+        background: #fff;
       }
       .cmd-result-count {
         font-size: 11px; font-family: var(--font-mono);
@@ -359,8 +399,18 @@ const fixedSections = navSections.filter(s => !isDateSection(s));
             <div class="dropdown">
               <span class="dropdown-trigger">Transition <span class="caret">▾</span></span>
               <div class="dropdown-menu">
-                {transitionSections.map(s => (
-                  <a href={`${base}${s}/`}>{getSectionNavLabel(s)}</a>
+                {groupSectionsByMonth(transitionSections).map(group => (
+                  <div class="dropdown-month">
+                    <span class="dropdown-month-trigger" tabindex="0">
+                      {group.monthLabel}
+                      <span class="caret caret-right">▸</span>
+                    </span>
+                    <div class="dropdown-month-menu">
+                      {group.slugs.map(s => (
+                        <a href={`${base}${s}/`}>{getSectionNavLabel(s)}</a>
+                      ))}
+                    </div>
+                  </div>
                 ))}
               </div>
             </div>
@@ -425,12 +475,12 @@ const fixedSections = navSections.filter(s => !isDateSection(s));
           </div>
           <div class="cmd-group-label">Navigate</div>
           <a class="cmd-item" href={base}>
-            <span class="cmd-item-icon">↖</span>
+            <span class="cmd-item-icon" aria-hidden="true">↖</span>
             <span class="cmd-item-label">Home</span>
             <span class="cmd-item-desc">Return to homepage</span>
           </a>
           <a class="cmd-item" href="https://github.com/barrettsoron/ndp-transition-research-2026" target="_blank" rel="noopener">
-            <span class="cmd-item-icon">⎇</span>
+            <span class="cmd-item-icon" aria-hidden="true">⎇</span>
             <span class="cmd-item-label">GitHub repository</span>
             <span class="cmd-item-desc">View source</span>
           </a>
@@ -512,12 +562,31 @@ const fixedSections = navSections.filter(s => !isDateSection(s));
           });
         }
 
-        function makeResultItem(url, title, excerpt, outlet) {
+        function makeTagRow(meta) {
+          const tags = [];
+          if (meta?.outlet) tags.push(meta.outlet);
+          if (meta?.type && meta.type !== 'article') tags.push(meta.type);
+          if (meta?.language && meta.language !== 'en') tags.push(meta.language.toUpperCase());
+          if (meta?.date) tags.push(meta.date);
+          if (!tags.length) return null;
+          const row = document.createElement('span');
+          row.className = 'cmd-tag-row';
+          tags.forEach(t => {
+            const pill = document.createElement('span');
+            pill.className = 'cmd-tag-pill';
+            pill.textContent = t;
+            row.appendChild(pill);
+          });
+          return row;
+        }
+
+        function makeResultItem(url, title, excerpt, meta) {
           const a = document.createElement('a');
           a.className = 'cmd-item';
           a.href = url;
           const icon = document.createElement('span');
           icon.className = 'cmd-item-icon';
+          icon.setAttribute('aria-hidden', 'true');
           icon.textContent = '→';
           const body = document.createElement('span');
           body.className = 'cmd-item-body';
@@ -531,12 +600,8 @@ const fixedSections = navSections.filter(s => !isDateSection(s));
             appendExcerpt(ex, excerpt);
             body.appendChild(ex);
           }
-          if (outlet) {
-            const badge = document.createElement('span');
-            badge.className = 'cmd-outlet-badge';
-            badge.textContent = outlet;
-            body.appendChild(badge);
-          }
+          const tagRow = makeTagRow(meta);
+          if (tagRow) body.appendChild(tagRow);
           a.append(icon, body);
           return a;
         }
@@ -561,7 +626,7 @@ const fixedSections = navSections.filter(s => !isDateSection(s));
           count.textContent = `${res.results.length} result${res.results.length === 1 ? '' : 's'}`;
           const frag = document.createDocumentFragment();
           frag.appendChild(count);
-          data.forEach(d => frag.appendChild(makeResultItem(d.url, d.meta?.title ?? d.url, d.excerpt ?? '', d.meta?.outlet ?? '')));
+          data.forEach(d => frag.appendChild(makeResultItem(d.url, d.meta?.title ?? d.url, d.excerpt ?? '', d.meta)));
           searchResults.appendChild(frag);
         }
 

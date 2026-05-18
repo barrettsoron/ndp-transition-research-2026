@@ -5,7 +5,7 @@ const articles = defineCollection({
   loader: glob({
     pattern: [
       "daily/*/[0-9]*.md",
-      "{speeches,stephen-lewis,transcript-archive}/[0-9]*.md",
+      "{speeches,stephen-lewis}/[0-9]*.md",
     ],
     base: ".",
     generateId: ({ entry }) => {

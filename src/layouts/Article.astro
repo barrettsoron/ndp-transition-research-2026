@@ -20,6 +20,7 @@ interface Props {
 }
 const { title, date, author, outlet, source, language, type, speakers, video, note, stub, section, prevArticle, nextArticle } = Astro.props;
 const dateStr = date.toLocaleDateString('en-CA', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric', timeZone: 'UTC' });
+const shortDateStr = date.toLocaleDateString('en-CA', { month: 'short', day: 'numeric', timeZone: 'UTC' });
 const base = import.meta.env.BASE_URL.replace(/\/?$/, '/');
 const sectionLabel = section ? getSectionLabel(section) : null;
 const groupLabel = section ? (isConventionSection(section) ? 'Convention' : isDateSection(section) ? 'Transition' : null) : null;
@@ -242,6 +243,9 @@ const lang = language ?? 'en';
         </nav>
 
         <header class="article-head">
+          <span data-pagefind-meta={`type:${type ?? 'article'}`} hidden></span>
+          <span data-pagefind-meta={`language:${lang}`} hidden></span>
+          <span data-pagefind-meta={`date:${shortDateStr}`} hidden></span>
           {(outlet || type) && (
             <div class="kicker">
               {outlet}{outlet && type && type !== 'article' ? ' · ' : ''}{type && type !== 'article' ? type : ''}
