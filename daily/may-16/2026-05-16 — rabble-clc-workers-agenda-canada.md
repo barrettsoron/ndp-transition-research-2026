@@ -6,7 +6,7 @@ outlet: rabble.ca (RadioLabour)
 author: Marc Bélanger
 language: en
 type: transcript
-note: "Solidarity News on RadioLabour, Friday May 15, 2026, posted to rabble.ca May 16. Host Marc Bélanger reports from the 31st Constitutional Convention of the Canadian Labour Congress in Winnipeg, with rally speeches from CLC President Bea Bruske, United Steelworkers Western Canadian Director Scott Lunny, PSAC National President Sharon DeSousa, and the UFCW Canada National President (rendered by Whisper as 'Barry Sawyer / UCW Canada', here corrected to UFCW Canada — exact name spelling not verified against on-air audio, so listed phonetically as 'Barry Sawyer'). The bulk of the transcript is Avi Lewis's address to convention delegates. The episode closes with a LabourStart report from Derek Blackadder and a musical performance of 'What a Wonderful World' by CLC executive vice-president Larry Rousseau, which is summarized rather than transcribed verbatim. Whisper rendered 'Bélanger' as 'Balagie / Belanger', 'Bea Bruske' as 'B. Brusque', 'Scott Lunny' as 'Scott Lenny', 'Sharon DeSousa' as 'Sharon D'Souza', 'Wab Kinew' as 'Wabken / Wab Canoe', 'Marit Stiles' as 'Moritz Stiles', and 'CUPW' as 'CUPW'; corrected here."
+note: "Solidarity News on RadioLabour, Friday May 15, 2026, posted to rabble.ca May 16. Host Marc Bélanger reports from the 31st Constitutional Convention of the Canadian Labour Congress in Winnipeg, with rally speeches from CLC President Bea Bruske, United Steelworkers Western Canadian Director Scott Lunny, PSAC National President Sharon DeSousa, and UFCW Canada National President Barry Sawyer. The bulk of the transcript is Avi Lewis's address to convention delegates. The original episode also includes a LabourStart report from Derek Blackadder and a closing musical performance by CLC executive vice-president Larry Rousseau — both omitted here as they fall outside the transition-relevant scope. Whisper rendered 'Bélanger' as 'Balagie / Belanger', 'Bea Bruske' as 'B. Brusque', 'Scott Lunny' as 'Scott Lenny', 'Sharon DeSousa' as 'Sharon D'Souza', 'Wab Kinew' as 'Wabken / Wab Canoe', and 'Marit Stiles' as 'Moritz Stiles'; corrected here."
 speakers:
   - Marc Bélanger
   - Bea Bruske
@@ -14,7 +14,6 @@ speakers:
   - Sharon DeSousa
   - Barry Sawyer
   - Avi Lewis
-  - Derek Blackadder
 ---
 
 **Bélanger:** This is Solidarity News on RadioLabour. This is a RadioLabour Canada report recorded on Friday, May 15th, 2026. I'm Marc Bélanger. In the report this week: workers take to the streets at the CLC National Convention in Winnipeg this week, the LabourStart report about union events, and singing.
@@ -89,36 +88,8 @@ So I want to hear from you. All right, don't be shy. It's my job and it's my pri
 
 Thank you to the world. Merci.
 
-## LabourStart report
-
-**Bélanger:** Here with his report about union events is LabourStart correspondent Derek Blackadder.
-
-**Blackadder:** This week, the top story sections on our Canadian, French, and English language pages included what's becoming a weekly announcement: two more CUPE locals in Nova Scotia's long-term care system have joined the expanding provincial strike. Well over 30 care homes are now behind picket lines. Other stories that caught my eye were the national protests organized by SEIU to draw attention to a cleaning company's enthusiasm for creating toxic workplaces.
-
-And while there will be questions about whether it goes far enough in the extent to which all affiliates will participate with enthusiasm, the Canadian Labour Congress convention in Winnipeg this week — quote — "adopted a sweeping action plan to rebuild democratic participation, strengthen working-class political power, and confront authoritarian politics."
-
-But my favourite item among our Canadian stories this week, and a candidate for favourite labour story of 2026, was about the delivery drivers in Saskatoon who cut to the chase and skipped the whole sign cards, get a vote, get a union legally certified, and go through a few months or a few years of bargaining stages of building a union, and went straight to the picket line — with reason, given their working conditions and abysmal pay. As their walkout continues, the workers are talking to UFCW about formally organizing.
-
-As LabourStart is a global organization, I'd like to highlight at least one non-Canadian story for you. This week's is from Ukraine, where the International Labour Organization is working with the country's labour movement to build its capacity despite having to do so under wartime conditions. Both of Ukraine's central labour bodies — the Federation of Trade Unions of Ukraine, or FPU, and the Confederation of Free Trade Unions of Ukraine, the KVPU — are involved. The programme is largely funded by the government of Belgium, thanks to lobbying by Belgian unions.
-
-Over on LabourStart's Working Women pages, stories from Canada included more interviews by the mainstream media of striking Nova Scotia care workers, a collection of first impressions by CUPE members attending the 70th session of the United Nations Commission on the Status of Women, and the struggle of B.C. women farm workers for basics like toilets and lunchrooms, not to mention personal protective equipment when pesticides are in use. That same story popped up on our health and safety page in Newswire, along with stories about a Teamster working as a security guard who was shot during a robbery in London, Ontario, and why retail unions are livid after a shop worker in Winnipeg was assaulted by an irate customer.
-
-The labour movement's history is what inspires our current struggles, and this week we mark the anniversaries of these events. This week has historically been a big one for Canadian workers. In 1992, an underground explosion took the lives of 26 miners in Pictou County, Nova Scotia. A public inquiry into the Westray disaster blamed politicians, managers, and bureaucrats for creating what it called a predictable path to disaster.
-
-In 1972, leaders of the Quebec Common Front went to jail for defying back-to-work laws during the April general strike. More than 300,000 workers participated in work stoppages and occupations that brought the provincial government back to the bargaining table.
-
-In 1940, Emma Goldman — the veteran feminist, labour, and anarchist organizer — died in Toronto. A memorial service was held at the Labor Lyceum on Spadina Avenue. Her body was later buried with those of the Haymarket martyrs in Chicago.
-
-This week in 1946 saw the start of a six-week strike by loggers in British Columbia, the first after the achievement of collective bargaining rights during the war. The strike helped set the post-war standards by achieving higher wages, shorter hours, and an industry-wide contract.
-
-In 1872, some 1,500 workers in Hamilton, Ontario took to the streets under the banner of the Nine Hours Movement to demonstrate for a reduction in working hours.
-
-And now the biggie. This week in 1919, a general strike in a major city brought thousands of workers out in support of labour rights and social change. Winnipeg came to a standstill in an urban rebellion that exposed the unresolved class conflicts of capitalist democracy in Canada.
-
-This is Derek Blackadder from LabourStart reporting for RadioLabour.
-
 ## Closing
 
-**Bélanger:** Now here is a special treat. Larry Rousseau, one of the CLC's executive vice-presidents, performs "What a Wonderful World" for the convention. [Musical performance — paraphrased lyrics include verses naming his children Vincent, Amélie, and Alexis.]
+**Bélanger:** And that's it. Labour news you can use. I'm Marc Bélanger. Thank you for listening, and remember: it's all about solidarity.
 
-And that's it. Labour news you can use. I'm Marc Bélanger. Thank you for listening, and remember: it's all about solidarity.
+*(The original episode continues with a LabourStart report from Derek Blackadder on global union news and a closing musical performance by Larry Rousseau — omitted here as outside the transition-relevant scope.)*
