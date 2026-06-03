@@ -9,7 +9,7 @@
     "preview": "astro preview"
   },
   "dependencies": {
-    "astro": "5.0.0"
+    "astro": "5.18.2"
   },
   "devDependencies": {
     "pagefind": "1.5.2"
