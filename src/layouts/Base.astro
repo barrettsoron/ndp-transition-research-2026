@@ -19,6 +19,14 @@ const transitionSections = navSections.filter(s => isDateSection(s) && !isConven
 const fixedSections = navSections.filter(s => !isDateSection(s));
 ---
 <!DOCTYPE html>
+<!--
+  lang is deliberately hardcoded to "en" rather than reflecting the article's own language.
+  Pagefind builds one index per value of html lang and pf.init() only loads the index matching
+  the current page, so per-article lang would mean an English page could no longer find French
+  or Chinese articles. A single index keeps search cross-language, at the cost of stemming
+  everything as English — which for Chinese means body text is not word-searchable. Revisit only
+  alongside a search UI that queries every index.
+-->
 <html lang="en">
   <head>
     <meta charset="UTF-8" />

@@ -111,10 +111,25 @@ speakers:
 The Astro site validates every markdown file's frontmatter at build time. If these constraints are violated, the build fails and the site won't deploy. **These are strict — do not deviate.**
 
 - `type` must be one of: `article`, `speech`, `transcript`, `statement`
-- `language` must be one of: `en`, `fr`, `en-fr`
+- `language` must be one of: `en`, `fr`, `en-fr`, `zh`
 - `source` must be a valid URL (include the protocol: `https://...`)
 - `date` must be a valid date (e.g., `2026-03-29`, not `March 29, 2026`)
 - `stub` must be `true` or omitted entirely (not `false`, not a string)
+
+### Chinese-language content
+
+Use `language: zh` for Chinese-language coverage regardless of script. The field records what
+language a document is in, not its script or regional variant — the same way Quebec and French
+coverage both use `fr`. Whether a source is Traditional (Sing Tao, Ming Pao) or Simplified
+(VanPeople, 加西周末) is carried by `outlet`, and can be spelled out in `note` when it matters.
+
+Chinese-Canadian outlets carry a lot of syndicated wire copy. Apply the usual rule: trace back to
+the originating publisher and archive that, not the reprint.
+
+**Known limitation:** Pagefind indexes the whole site as English, so Chinese body text is not
+word-searchable — it has no whitespace for the tokenizer to split on. Chinese articles are still
+findable by title, outlet, and date. Fixing this properly means per-language Pagefind indexes,
+which would break cross-language search; see the note in `src/layouts/Base.astro`.
 
 ## Content formatting rules
 

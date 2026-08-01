@@ -24,7 +24,7 @@ const articles = defineCollection({
     date: z.coerce.date(),
     outlet: z.string().optional(),
     source: z.string().url().optional(),
-    language: z.enum(["en", "fr", "en-fr"]).default("en"),
+    language: z.enum(["en", "fr", "en-fr", "zh"]).default("en"),
     type: z.enum(["article", "speech", "transcript", "statement"]).default("article"),
     author: z.string().optional(),
     speakers: z.array(z.string()).optional(),
