@@ -5,7 +5,7 @@ source: https://www.taxpayer.com/newsroom/taxpayers-can%E2%80%99t-afford-governm
 author: Devin Drover
 outlet: Canadian Taxpayers Federation
 language: en
-type: article
+type: statement
 ---
 
 Tax cuts are the best way to make life more affordable in Newfoundland and Labrador. The provincial government proved it in this year's budget. So why is it flirting with a government grocery store scheme that won't work?

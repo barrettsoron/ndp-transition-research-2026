@@ -5,7 +5,7 @@ source: https://press.liaisonstrategies.ca/federal-tracker-liberals-lead-by-11-a
 author: David Valentin
 outlet: Liaison Strategies
 language: en
-type: article
+type: statement
 ---
 
 Liaison Strategies' Weekly Federal Tracker, released August 17, 2026, shows the Liberal Party, led by Prime Minister Mark Carney, holding an 11-point lead over Pierre Poilievre's Conservatives, while Carney's approval rises to 60%.

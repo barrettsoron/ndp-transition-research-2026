@@ -5,7 +5,7 @@ source: https://press.liaisonstrategies.ca/federal-tracker-liberals-open-13-poin
 author: David Valentin
 outlet: Liaison Strategies
 language: en
-type: article
+type: statement
 note: "Weekly federal tracker. NDP up one point to 13% among decided and leaning voters; Avi Lewis at 30% favourable / 30% unfavourable, his highest unfavourable reading in the tracker to date."
 ---
 
