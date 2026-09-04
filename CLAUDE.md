@@ -177,6 +177,22 @@ If this session is running inside a git worktree (check with `git worktree list`
 
 This project is maintained through Claude Code Desktop. A scheduled task runs daily to fetch new coverage from RSS feeds, format it using these conventions, and open a PR for review. Manual additions (paywalled sources, transcripts) are done interactively through Claude Code Desktop or Dispatch.
 
+### Check the open PRs before archiving
+
+Each daily branch is cut from `main`, so a run that only looks at its own working tree is
+blind to whatever earlier, still-unmerged PRs have already archived. Before creating any
+file, check the open branches as well as `main`:
+
+```
+git fetch origin 'refs/heads/daily/*:refs/remotes/origin/daily/*'
+git log --all --oneline --name-only --diff-filter=A -- daily/ | grep -i '<slug fragment>'
+```
+
+Match on the source URL, not just the headline — the same piece often runs under a
+different headline in the print edition, and a PressReader or syndicated version of a
+story already archived in full from the originating publisher is a duplicate, not a new
+item. When both exist, keep the originating publisher's full text and drop the mirror.
+
 ### Adding a single article (Dispatch or interactive)
 
 When given a URL to add to the archive:
@@ -200,3 +216,13 @@ When given raw article text (e.g., pasted from a paywalled source) along with th
 - Unpublished analysis or personal commentary
 - Content that doesn't relate to the NDP leadership transition or its immediate context
 - Anything that would compromise individuals' privacy
+- **Anything sourced from Rebel News (rebelnews.com).** Excluded outright, whatever the
+  topic — no file, no stub, no caveat note. List such items in the PR's skipped section
+  by title and URL so the decision stays visible. If a Rebel News item covers something
+  genuinely newsworthy for the transition, find the same story from another outlet and
+  archive that instead.
+
+Take particular care with private individuals. Letter-to-the-editor writers, commenters
+and people named in someone else's account are not public figures, and a passing mention
+of Avi Lewis or the NDP is not on its own enough reason to preserve a named private
+person's political or religious positioning in the archive.
