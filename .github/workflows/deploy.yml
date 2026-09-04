@@ -10,6 +10,14 @@ permissions:
   pages: write
   id-token: write
 
+# GitHub Pages allows one in-flight deployment at a time. Without this, rapid
+# merges race and the loser fails with "due to in progress deployment" even
+# though its build succeeded. Queue instead of cancelling so the tip always
+# ends up published.
+concurrency:
+  group: pages
+  cancel-in-progress: false
+
 jobs:
   build:
     runs-on: ubuntu-latest
